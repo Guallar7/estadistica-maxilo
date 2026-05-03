@@ -21,11 +21,10 @@ def records(name: str) -> list[dict]:
 
 def main() -> None:
     DOCS_DATA.mkdir(parents=True, exist_ok=True)
-    report_path = OUT / "report.md"
-    docx_review_path = OUT / "docx_review.md"
+    service_report_path = OUT / "informe_servicio_maxilofacial.md"
+    report_path = service_report_path if service_report_path.exists() else OUT / "report.md"
     payload = {
         "report": report_path.read_text(encoding="utf-8") if report_path.exists() else "",
-        "docxReview": docx_review_path.read_text(encoding="utf-8") if docx_review_path.exists() else "",
         "quality": records("data_quality.csv"),
         "codebook": records("codebook.csv"),
         "descriptiveContinuous": records("descriptive_continuous.csv"),

@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hiperplasia condilar | Informe clínico</title>
+    <link rel="icon" href="data:," />
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -136,6 +137,39 @@
         margin-bottom: 16px;
       }
 
+      .filters {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+        align-items: end;
+      }
+
+      label {
+        display: grid;
+        gap: 5px;
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 600;
+      }
+
+      select,
+      input {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 9px 10px;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+        font-size: 0.92rem;
+      }
+
+      .filter-note {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin: 10px 0 0;
+      }
+
       .two {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       }
@@ -188,7 +222,8 @@
 
       @media (max-width: 800px) {
         .metrics,
-        .two {
+        .two,
+        .filters {
           grid-template-columns: 1fr;
         }
       }
@@ -217,6 +252,50 @@
         <button data-tab="descriptive">Descriptiva</button>
         <button data-tab="report">Informe</button>
       </nav>
+
+      <section class="panel">
+        <h2>Filtros</h2>
+        <div class="filters">
+          <label>
+            Buscar
+            <input id="textFilter" type="search" placeholder="Desenlace o variable" />
+          </label>
+          <label>
+            Tipo de desenlace
+            <select id="typeFilter">
+              <option value="all">Todos</option>
+              <option value="cuantitativa/ordinal">Cuantitativa/ordinal</option>
+              <option value="binaria">Binaria</option>
+            </select>
+          </label>
+          <label>
+            Estado
+            <select id="statusFilter">
+              <option value="all">Todos</option>
+              <option value="Testado">Testado</option>
+              <option value="No testado">No testado</option>
+              <option value="Descriptivo">Descriptivo</option>
+            </select>
+          </label>
+          <label>
+            p-valor
+            <select id="pFilter">
+              <option value="all">Todos</option>
+              <option value="lt005">p &lt; 0,05</option>
+              <option value="ge005">p >= 0,05 / no aplicable</option>
+            </select>
+          </label>
+          <label>
+            Descriptiva
+            <select id="groupFilter">
+              <option value="all">Todos los grupos</option>
+            </select>
+          </label>
+        </div>
+        <p class="filter-note">
+          La web pública usa datos agregados. Por privacidad no se publican filtros por paciente ni datos fila a fila.
+        </p>
+      </section>
 
       <section id="overview" class="tab active">
         <div class="grid two">
@@ -271,6 +350,8 @@
           ? ""
           : Number(value).toLocaleString("es-ES", { maximumFractionDigits: digits });
 
+      let dashboardData = null;
+
       const table = (rows) => {
         if (!rows || !rows.length) return "<p>No hay datos disponibles.</p>";
         const columns = Object.keys(rows[0]);
@@ -288,30 +369,69 @@
 
       const metric = (label, value) => `<article class="metric"><span>${label}</span><strong>${value}</strong></article>`;
 
-      async function main() {
-        const response = await fetch("data/dashboard_data.json");
-        const data = await response.json();
-        const quality = data.quality || [];
-        const results = data.results || [];
+      const textIncludes = (row, query) =>
+        !query ||
+        Object.values(row)
+          .join(" ")
+          .toLowerCase()
+          .includes(query.toLowerCase());
+
+      const filteredResults = () => {
+        const query = document.getElementById("textFilter").value.trim();
+        const type = document.getElementById("typeFilter").value;
+        const status = document.getElementById("statusFilter").value;
+        const pFilter = document.getElementById("pFilter").value;
+        return (dashboardData.results || []).filter((row) => {
+          const p = Number(row.p_value);
+          if (!textIncludes(row, query)) return false;
+          if (type !== "all" && row.outcome_type !== type) return false;
+          if (status !== "all" && row.analysis_status !== status) return false;
+          if (pFilter === "lt005" && !(Number.isFinite(p) && p < 0.05)) return false;
+          if (pFilter === "ge005" && Number.isFinite(p) && p < 0.05) return false;
+          return true;
+        });
+      };
+
+      const filteredQuality = () => {
+        const query = document.getElementById("textFilter").value.trim();
+        return (dashboardData.quality || []).filter((row) => textIncludes(row, query));
+      };
+
+      const filteredDescriptive = (rows) => {
+        const query = document.getElementById("textFilter").value.trim();
+        const group = document.getElementById("groupFilter").value;
+        return (rows || []).filter((row) => {
+          if (!textIncludes(row, query)) return false;
+          if (group !== "all" && row.group !== group) return false;
+          return true;
+        });
+      };
+
+      const renderDashboard = () => {
+        const quality = filteredQuality();
+        const allQuality = dashboardData.quality || [];
+        const results = filteredResults();
         const tested = results.filter((r) => r.analysis_status === "Testado");
-        const nRows = quality[0]?.n_rows ?? "";
-        const missingCols = quality.filter((r) => Number(r.missing_n) > 0).length;
+        const nRows = allQuality[0]?.n_rows ?? "";
+        const missingCols = allQuality.filter((r) => Number(r.missing_n) > 0).length;
 
         document.getElementById("metrics").innerHTML = [
           metric("Registros analizados", nRows),
-          metric("Columnas auditadas", quality.length),
+          metric("Columnas auditadas", allQuality.length),
           metric("Columnas con missing", missingCols),
-          metric("Contrastes testados", tested.length),
+          metric("Resultados filtrados", results.length),
         ].join("");
 
         document.getElementById("resultsTable").innerHTML = table(results);
         document.getElementById("qualityTable").innerHTML = table(quality);
-        document.getElementById("codebookTable").innerHTML = table(data.codebook);
-        document.getElementById("continuousTable").innerHTML = table(data.descriptiveContinuous);
-        document.getElementById("categoricalTable").innerHTML = table(data.descriptiveCategorical);
-        document.getElementById("reportMarkdown").innerHTML = marked.parse(data.report || "");
+        document.getElementById("codebookTable").innerHTML = table(
+          (dashboardData.codebook || []).filter((row) => textIncludes(row, document.getElementById("textFilter").value.trim())),
+        );
+        document.getElementById("continuousTable").innerHTML = table(filteredDescriptive(dashboardData.descriptiveContinuous));
+        document.getElementById("categoricalTable").innerHTML = table(filteredDescriptive(dashboardData.descriptiveCategorical));
+        document.getElementById("reportMarkdown").innerHTML = marked.parse(dashboardData.report || "");
 
-        Plotly.newPlot(
+        Plotly.react(
           "effectChart",
           [
             {
@@ -340,7 +460,7 @@
         );
 
         const missing = quality.filter((r) => Number(r.missing_n) > 0);
-        Plotly.newPlot(
+        Plotly.react(
           "missingChart",
           [
             {
@@ -360,6 +480,30 @@
           },
           { responsive: true, displayModeBar: false },
         );
+      };
+
+      async function main() {
+        const response = await fetch("data/dashboard_data.json");
+        dashboardData = await response.json();
+
+        const groups = new Set([
+          ...(dashboardData.descriptiveContinuous || []).map((row) => row.group),
+          ...(dashboardData.descriptiveCategorical || []).map((row) => row.group),
+        ]);
+        const groupFilter = document.getElementById("groupFilter");
+        [...groups].sort().forEach((group) => {
+          const option = document.createElement("option");
+          option.value = group;
+          option.textContent = group;
+          groupFilter.appendChild(option);
+        });
+
+        document.querySelectorAll("#textFilter, #typeFilter, #statusFilter, #pFilter, #groupFilter").forEach((control) => {
+          control.addEventListener("input", renderDashboard);
+          control.addEventListener("change", renderDashboard);
+        });
+
+        renderDashboard();
       }
 
       document.querySelectorAll("nav button").forEach((button) => {
