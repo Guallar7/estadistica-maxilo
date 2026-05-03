@@ -6,6 +6,9 @@ import math
 import re
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -523,13 +526,169 @@ def render_docx_review(review: dict) -> str:
     return "\n".join(lines)
 
 
-def create_figures(outdir: Path, df_public: pd.DataFrame) -> None:
+def plot_groups() -> list[str]:
+    return GROUP_ORDER
+
+
+def ordered_groups(series: pd.Series) -> list[str]:
+    observed = [g for g in plot_groups() if g in set(series.dropna().astype(str))]
+    extras = sorted(set(series.dropna().astype(str)) - set(observed))
+    return observed + extras
+
+
+def display_level(value: object) -> str:
+    if pd.isna(value):
+        return "Perdido"
+    text = str(value).strip()
+    if text.endswith(".0"):
+        text = text[:-2]
+    return text
+
+
+def save_static_continuous_figure(figures_png: Path, df_public: pd.DataFrame, approach: str, col: str) -> None:
+    plot_df = df_public[[approach, col]].copy()
+    plot_df[col] = pd.to_numeric(plot_df[col], errors="coerce")
+    plot_df = plot_df.dropna(subset=[approach, col])
+    groups = ordered_groups(plot_df[approach])
+    data = [plot_df.loc[plot_df[approach] == group, col].to_numpy(dtype=float) for group in groups]
+    if not data or all(len(values) == 0 for values in data):
+        return
+
+    colors = ["#2563EB" if group == "Intraoral" else "#B45309" for group in groups]
+    rng = np.random.default_rng(20260503)
+    fig, ax = plt.subplots(figsize=(8, 4.8), dpi=160)
+    box = ax.boxplot(data, patch_artist=True, showfliers=False, widths=0.52)
+    for patch, color in zip(box["boxes"], colors):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.18)
+        patch.set_edgecolor(color)
+    for median in box["medians"]:
+        median.set_color("#111827")
+        median.set_linewidth(1.8)
+    for i, values in enumerate(data, 1):
+        jitter = rng.normal(0, 0.035, size=len(values))
+        ax.scatter(np.full(len(values), i) + jitter, values, s=24, alpha=0.72, color=colors[i - 1], edgecolors="white", linewidths=0.4)
+    ax.set_title(f"{col} por abordaje", fontsize=12, fontweight="bold")
+    ax.set_xlabel("Abordaje")
+    ax.set_ylabel(col)
+    ax.set_xticks(range(1, len(groups) + 1), groups)
+    ax.grid(axis="y", color="#E5E7EB", linewidth=0.8)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(figures_png / f"{safe_name(col)}_box.png", bbox_inches="tight")
+    plt.close(fig)
+
+
+def save_static_categorical_figure(figures_png: Path, df_public: pd.DataFrame, approach: str, col: str) -> None:
+    plot_df = df_public[[approach, col]].copy().dropna(subset=[approach])
+    if plot_df.empty:
+        return
+    plot_df[col] = plot_df[col].map(display_level)
+    groups = ordered_groups(plot_df[approach])
+    counts = pd.crosstab(plot_df[approach], plot_df[col]).reindex(groups).fillna(0)
+    levels = list(counts.columns)
+    colors = ["#0F766E", "#2563EB", "#B45309", "#7C3AED", "#64748B", "#DC2626", "#0891B2", "#4B5563"]
+
+    fig, ax = plt.subplots(figsize=(8, 4.8), dpi=160)
+    bottom = np.zeros(len(groups))
+    x = np.arange(len(groups))
+    for idx, level in enumerate(levels):
+        values = counts[level].to_numpy(dtype=float)
+        ax.bar(x, values, bottom=bottom, label=level, color=colors[idx % len(colors)], width=0.58)
+        for xpos, value, base in zip(x, values, bottom):
+            if value > 0:
+                ax.text(xpos, base + value / 2, f"{int(value)}", ha="center", va="center", fontsize=8, color="white", fontweight="bold")
+        bottom += values
+    ax.set_title(f"{col} por abordaje", fontsize=12, fontweight="bold")
+    ax.set_xlabel("Abordaje")
+    ax.set_ylabel("n")
+    ax.set_xticks(x, groups)
+    ax.grid(axis="y", color="#E5E7EB", linewidth=0.8)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(title=col, bbox_to_anchor=(1.02, 1), loc="upper left", frameon=False)
+    fig.tight_layout()
+    fig.savefig(figures_png / f"{safe_name(col)}_bar.png", bbox_inches="tight")
+    plt.close(fig)
+
+
+def save_effect_forest(figures_png: Path, results_df: pd.DataFrame) -> None:
+    tested = results_df[results_df["analysis_status"].eq("Testado")].copy()
+    for col in ["effect_value", "ci95_low", "ci95_high"]:
+        tested[col] = pd.to_numeric(tested[col], errors="coerce")
+    tested = tested.dropna(subset=["effect_value", "ci95_low", "ci95_high"])
+    if tested.empty:
+        return
+    binary_mask = tested["outcome_type"].eq("binaria")
+    tested.loc[binary_mask, ["effect_value", "ci95_low", "ci95_high"]] = (
+        tested.loc[binary_mask, ["effect_value", "ci95_low", "ci95_high"]] * 100
+    )
+    tested = tested.sort_values("effect_value")
+    y = np.arange(len(tested))
+    x = tested["effect_value"].to_numpy(dtype=float)
+    lower = x - tested["ci95_low"].to_numpy(dtype=float)
+    upper = tested["ci95_high"].to_numpy(dtype=float) - x
+
+    fig, ax = plt.subplots(figsize=(9, max(4.5, 0.48 * len(tested) + 1.4)), dpi=160)
+    ax.errorbar(x, y, xerr=[lower, upper], fmt="o", color="#0F766E", ecolor="#94A3B8", elinewidth=2, capsize=4)
+    ax.axvline(0, color="#111827", linewidth=1, linestyle="--", alpha=0.75)
+    ax.set_yticks(y, tested["outcome"])
+    ax.set_xlabel("Efecto: Intraoral - Preauricular (escala original; binarios en puntos porcentuales)")
+    ax.set_title("Tamaños de efecto con IC95%", fontsize=12, fontweight="bold")
+    ax.grid(axis="x", color="#E5E7EB", linewidth=0.8)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(figures_png / "forest_tamanos_efecto.png", bbox_inches="tight")
+    plt.close(fig)
+
+
+def save_missingness_figure(figures_png: Path, quality: pd.DataFrame) -> None:
+    plot_df = quality.copy()
+    plot_df["missing_pct"] = pd.to_numeric(plot_df["missing_pct"], errors="coerce")
+    plot_df = plot_df[plot_df["missing_pct"].fillna(0) > 0].sort_values("missing_pct")
+    if plot_df.empty:
+        return
+    fig, ax = plt.subplots(figsize=(8, max(4.5, 0.38 * len(plot_df) + 1.2)), dpi=160)
+    ax.barh(plot_df["column"], plot_df["missing_pct"], color="#0F766E")
+    for y_pos, value in enumerate(plot_df["missing_pct"]):
+        ax.text(value + 0.5, y_pos, f"{value:.1f}%", va="center", fontsize=8)
+    ax.set_xlabel("% missing / no interpretable")
+    ax.set_title("Columnas con datos ausentes o no interpretables", fontsize=12, fontweight="bold")
+    ax.grid(axis="x", color="#E5E7EB", linewidth=0.8)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(figures_png / "missingness_columnas.png", bbox_inches="tight")
+    plt.close(fig)
+
+
+def save_approach_distribution(figures_png: Path, df_public: pd.DataFrame, approach: str) -> None:
+    counts = df_public[approach].value_counts().reindex(plot_groups()).dropna()
+    if counts.empty:
+        return
+    colors = ["#2563EB" if group == "Intraoral" else "#B45309" for group in counts.index]
+    fig, ax = plt.subplots(figsize=(7, 4.4), dpi=160)
+    bars = ax.bar(counts.index, counts.values, color=colors, width=0.55)
+    ax.bar_label(bars, labels=[str(int(v)) for v in counts.values], padding=4, fontsize=9)
+    ax.set_ylabel("n")
+    ax.set_title("Distribución de la muestra por abordaje", fontsize=12, fontweight="bold")
+    ax.grid(axis="y", color="#E5E7EB", linewidth=0.8)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(figures_png / "distribucion_por_abordaje.png", bbox_inches="tight")
+    plt.close(fig)
+
+
+def create_figures(outdir: Path, df_public: pd.DataFrame, results_df: pd.DataFrame, quality: pd.DataFrame) -> None:
     figures = outdir / "figures"
     figures.mkdir(exist_ok=True)
+    figures_png = outdir / "figures_png"
+    figures_png.mkdir(exist_ok=True)
+    for old_png in figures_png.glob("*.png"):
+        old_png.unlink()
     approach = RAW_COLUMNS["approach"]
     palette = {"Intraoral": "#2563EB", "Preauricular": "#B45309"}
 
     continuous = [
+        RAW_COLUMNS["age"],
         RAW_COLUMNS["surgery_time"],
         RAW_COLUMNS["bleeding_ml"],
         RAW_COLUMNS["pain"],
@@ -550,8 +709,11 @@ def create_figures(outdir: Path, df_public: pd.DataFrame) -> None:
         )
         fig.update_layout(showlegend=False, margin=dict(l=40, r=20, t=60, b=40))
         fig.write_html(figures / f"{safe_name(col)}_box.html", include_plotlyjs="cdn")
+        save_static_continuous_figure(figures_png, df_public, approach, col)
 
     categorical = [
+        RAW_COLUMNS["sex"],
+        RAW_COLUMNS["side"],
         RAW_COLUMNS["facial_nerve"],
         RAW_COLUMNS["scar"],
         DERIVED_COLUMNS["bleeding_any"],
@@ -577,6 +739,11 @@ def create_figures(outdir: Path, df_public: pd.DataFrame) -> None:
         )
         fig.update_layout(margin=dict(l=40, r=20, t=60, b=40))
         fig.write_html(figures / f"{safe_name(col)}_bar.html", include_plotlyjs="cdn")
+        save_static_categorical_figure(figures_png, df_public, approach, col)
+
+    save_approach_distribution(figures_png, df_public, approach)
+    save_effect_forest(figures_png, results_df)
+    save_missingness_figure(figures_png, quality)
 
 
 def safe_name(name: str) -> str:
@@ -798,7 +965,7 @@ def main() -> None:
     results_df.to_csv(outdir / "statistical_results.csv", index=False)
 
     docx_review = extract_docx_review(Path(args.docx) if args.docx else None, outdir)
-    create_figures(outdir, clean_public)
+    create_figures(outdir, clean_public, results_df, quality)
     write_report(outdir, clean, clean_public, results_df, quality, docx_review)
 
     manifest = {

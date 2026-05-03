@@ -7,6 +7,7 @@ __pycache__/
 *.xls
 *.docx
 *.doc
+!outputs/informe_servicio_maxilofacial.docx
 
 # Row-level or source-derived data: keep local only.
 outputs/clean_public_data.csv
