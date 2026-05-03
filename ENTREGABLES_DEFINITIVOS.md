@@ -14,7 +14,7 @@ Estos son los archivos que deben considerarse definitivos para presentación y r
 | `outputs/statistical_results.csv` | Tabla principal de comparaciones, efectos, IC95% y p-valores. |
 | `outputs/descriptive_continuous.csv` | Descriptiva de variables continuas/ordinales global y por abordaje. |
 | `outputs/descriptive_categorical.csv` | Descriptiva de variables categóricas global y por abordaje. |
-| `outputs/data_quality.csv` | Auditoría de calidad, missingness, valores sospechosos y ejemplos. |
+| `outputs/data_quality.csv` | Auditoría de calidad, datos ausentes/no interpretables, valores sospechosos y ejemplos. |
 | `outputs/codebook.csv` | Diccionario de variables, codificaciones y transformaciones. |
 | `outputs/transformations.json` | Registro reproducible de transformaciones aplicadas. |
 | `outputs/report.md` | Informe técnico reproducible con revisión metodológica. |
@@ -45,7 +45,7 @@ Contenido:
 | `complicaciones_si_1_no_0_bar.png` | Complicaciones por abordaje. |
 | `necesidad_ortogn_tica_binaria_bar.png` | Necesidad posterior de ortognática por abordaje. |
 | `forest_tamanos_efecto.png` | Resumen de tamaños de efecto con IC95%. |
-| `missingness_columnas.png` | Columnas con datos ausentes o no interpretables. |
+| `datos_ausentes_no_interpretables.png` | Columnas con datos ausentes o no interpretables. |
 
 ## Web y dashboard
 

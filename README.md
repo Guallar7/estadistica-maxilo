@@ -60,7 +60,7 @@ La carpeta definitiva de figuras estáticas es:
 
 - `outputs/figures_png/`
 
-Incluye boxplots, barras por abordaje, forest plot de tamaños de efecto y gráfico de missingness. Estas figuras se regeneran automáticamente al ejecutar `analysis_pipeline.py`.
+Incluye boxplots, barras por abordaje, forest plot de tamaños de efecto y gráfico de datos ausentes/no interpretables. Estas figuras se regeneran automáticamente al ejecutar `analysis_pipeline.py`.
 
 ## Ejecución local
 

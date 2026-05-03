@@ -958,7 +958,7 @@
     {
       "group": "Global",
       "variable": "Complicaciones: SI: 1 /NO: 0)",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 1,
       "denominator_records": 41,
       "denominator_nonmissing": 40,
@@ -968,7 +968,7 @@
     {
       "group": "Global",
       "variable": "TIPO DE COMPLICACIÓN",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 28,
       "denominator_records": 41,
       "denominator_nonmissing": 13,
@@ -1028,7 +1028,7 @@
     {
       "group": "Global",
       "variable": "Recidiva binaria",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 5,
       "denominator_records": 41,
       "denominator_nonmissing": 36,
@@ -1058,7 +1058,7 @@
     {
       "group": "Global",
       "variable": "Necesidad ortognática binaria",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 2,
       "denominator_records": 41,
       "denominator_nonmissing": 39,
@@ -1228,7 +1228,7 @@
     {
       "group": "Intraoral",
       "variable": "TIPO DE COMPLICACIÓN",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 15,
       "denominator_records": 18,
       "denominator_nonmissing": 3,
@@ -1478,7 +1478,7 @@
     {
       "group": "Preauricular",
       "variable": "Complicaciones: SI: 1 /NO: 0)",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 1,
       "denominator_records": 23,
       "denominator_nonmissing": 22,
@@ -1488,7 +1488,7 @@
     {
       "group": "Preauricular",
       "variable": "TIPO DE COMPLICACIÓN",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 13,
       "denominator_records": 23,
       "denominator_nonmissing": 10,
@@ -1528,7 +1528,7 @@
     {
       "group": "Preauricular",
       "variable": "Recidiva binaria",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 5,
       "denominator_records": 23,
       "denominator_nonmissing": 18,
@@ -1558,7 +1558,7 @@
     {
       "group": "Preauricular",
       "variable": "Necesidad ortognática binaria",
-      "level": "Missing",
+      "level": "Ausente/no interpretable",
       "n": 2,
       "denominator_records": 23,
       "denominator_nonmissing": 21,

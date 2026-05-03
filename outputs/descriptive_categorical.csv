@@ -20,17 +20,17 @@ Global,Necesidad de ortognatica posteriormente,?,2,41,41,4.88,4.88
 Global,Necesidad de ortognatica posteriormente,Si,1,41,41,2.44,2.44
 Global,Complicaciones: SI: 1 /NO: 0),0.0,27,41,40,65.85,67.5
 Global,Complicaciones: SI: 1 /NO: 0),1.0,13,41,40,31.71,32.5
-Global,Complicaciones: SI: 1 /NO: 0),Missing,1,41,40,2.44,
-Global,TIPO DE COMPLICACIÓN,Missing,28,41,13,68.29,
+Global,Complicaciones: SI: 1 /NO: 0),Ausente/no interpretable,1,41,40,2.44,
+Global,TIPO DE COMPLICACIÓN,Ausente/no interpretable,28,41,13,68.29,
 Global,TIPO DE COMPLICACIÓN,Parálisis,9,41,13,21.95,69.23
 Global,TIPO DE COMPLICACIÓN,Hematoma,2,41,13,4.88,15.38
 Global,TIPO DE COMPLICACIÓN,Dehiscencia,1,41,13,2.44,7.69
 Global,TIPO DE COMPLICACIÓN,Infección,1,41,13,2.44,7.69
 Global,Recidiva binaria,0.0,36,41,36,87.8,100.0
-Global,Recidiva binaria,Missing,5,41,36,12.2,
+Global,Recidiva binaria,Ausente/no interpretable,5,41,36,12.2,
 Global,Necesidad ortognática binaria,1.0,32,41,39,78.05,82.05
 Global,Necesidad ortognática binaria,0.0,7,41,39,17.07,17.95
-Global,Necesidad ortognática binaria,Missing,2,41,39,4.88,
+Global,Necesidad ortognática binaria,Ausente/no interpretable,2,41,39,4.88,
 Global,Sangrado postoperatorio >0 ml,1.0,21,41,41,51.22,51.22
 Global,Sangrado postoperatorio >0 ml,0.0,20,41,41,48.78,48.78
 Intraoral,Sexo,Mujer,18,18,18,100.0,100.0
@@ -47,7 +47,7 @@ Intraoral,Necesidad de ortognatica posteriormente,NO,3,18,18,16.67,16.67
 Intraoral,Necesidad de ortognatica posteriormente,Si,1,18,18,5.56,5.56
 Intraoral,Complicaciones: SI: 1 /NO: 0),0.0,15,18,18,83.33,83.33
 Intraoral,Complicaciones: SI: 1 /NO: 0),1.0,3,18,18,16.67,16.67
-Intraoral,TIPO DE COMPLICACIÓN,Missing,15,18,3,83.33,
+Intraoral,TIPO DE COMPLICACIÓN,Ausente/no interpretable,15,18,3,83.33,
 Intraoral,TIPO DE COMPLICACIÓN,Hematoma,2,18,3,11.11,66.67
 Intraoral,TIPO DE COMPLICACIÓN,Infección,1,18,3,5.56,33.33
 Intraoral,Recidiva binaria,0.0,18,18,18,100.0,100.0
@@ -72,14 +72,14 @@ Preauricular,Necesidad de ortognatica posteriormente,NO,4,23,23,17.39,17.39
 Preauricular,Necesidad de ortognatica posteriormente,?,2,23,23,8.7,8.7
 Preauricular,Complicaciones: SI: 1 /NO: 0),0.0,12,23,22,52.17,54.55
 Preauricular,Complicaciones: SI: 1 /NO: 0),1.0,10,23,22,43.48,45.45
-Preauricular,Complicaciones: SI: 1 /NO: 0),Missing,1,23,22,4.35,
-Preauricular,TIPO DE COMPLICACIÓN,Missing,13,23,10,56.52,
+Preauricular,Complicaciones: SI: 1 /NO: 0),Ausente/no interpretable,1,23,22,4.35,
+Preauricular,TIPO DE COMPLICACIÓN,Ausente/no interpretable,13,23,10,56.52,
 Preauricular,TIPO DE COMPLICACIÓN,Parálisis,9,23,10,39.13,90.0
 Preauricular,TIPO DE COMPLICACIÓN,Dehiscencia,1,23,10,4.35,10.0
 Preauricular,Recidiva binaria,0.0,18,23,18,78.26,100.0
-Preauricular,Recidiva binaria,Missing,5,23,18,21.74,
+Preauricular,Recidiva binaria,Ausente/no interpretable,5,23,18,21.74,
 Preauricular,Necesidad ortognática binaria,1.0,17,23,21,73.91,80.95
 Preauricular,Necesidad ortognática binaria,0.0,4,23,21,17.39,19.05
-Preauricular,Necesidad ortognática binaria,Missing,2,23,21,8.7,
+Preauricular,Necesidad ortognática binaria,Ausente/no interpretable,2,23,21,8.7,
 Preauricular,Sangrado postoperatorio >0 ml,1.0,21,23,23,91.3,91.3
 Preauricular,Sangrado postoperatorio >0 ml,0.0,2,23,23,8.7,8.7

@@ -322,7 +322,7 @@ def summarize_categorical(df: pd.DataFrame, columns: list[str], group: str | Non
                 rows.append({
                     "group": group_value,
                     "variable": col,
-                    "level": "Missing" if pd.isna(level) else str(level),
+                    "level": "Ausente/no interpretable" if pd.isna(level) else str(level),
                     "n": int(count),
                     "denominator_records": total,
                     "denominator_nonmissing": denom_nonmissing,
@@ -483,7 +483,7 @@ def extract_docx_review(docx_path: Path | None, outdir: Path) -> dict:
         "Incluye valores p expresados como 0.000; se deben reportar con precisión razonable, no como cero.",
         "Incluye fragmentos de código con datos introducidos manualmente; esto dificulta auditoría y reproducibilidad.",
         "Se apoya mucho en Shapiro-Wilk para decidir normalidad; en muestra pequeña conviene usar resúmenes robustos, gráficos y pruebas no paramétricas justificadas.",
-        "No documenta de forma suficiente missingness, valores `?`/`no aplica` ni denominadores exactos; la variable `Sexo` se corrige en la base reproducible.",
+        "No documenta de forma suficiente los datos ausentes/no interpretables, valores `?`/`no aplica` ni denominadores exactos; la variable `Sexo` se corrige en la base reproducible.",
         "No reporta de forma sistemática tamaños de efecto ni intervalos de confianza, por lo que puede sobredimensionar conclusiones basadas solo en p-valores.",
     ]
     if "ID Paciente" in text:
@@ -651,12 +651,12 @@ def save_missingness_figure(figures_png: Path, quality: pd.DataFrame) -> None:
     ax.barh(plot_df["column"], plot_df["missing_pct"], color="#0F766E")
     for y_pos, value in enumerate(plot_df["missing_pct"]):
         ax.text(value + 0.5, y_pos, f"{value:.1f}%", va="center", fontsize=8)
-    ax.set_xlabel("% missing / no interpretable")
+    ax.set_xlabel("% datos ausentes / no interpretables")
     ax.set_title("Columnas con datos ausentes o no interpretables", fontsize=12, fontweight="bold")
     ax.grid(axis="x", color="#E5E7EB", linewidth=0.8)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
-    fig.savefig(figures_png / "missingness_columnas.png", bbox_inches="tight")
+    fig.savefig(figures_png / "datos_ausentes_no_interpretables.png", bbox_inches="tight")
     plt.close(fig)
 
 

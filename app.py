@@ -128,7 +128,7 @@ k1.metric("Registros filtrados", len(view))
 k2.metric("Abordajes", view[APPROACH].nunique() if APPROACH in view else 0)
 k3.metric("Complicaciones", metric_value(view.get("Complicaciones: SI: 1 /NO: 0)")))
 k4.metric("Lesión nervio facial", metric_value(view.get("Lesión Nervio Facial (Sí=1/No=0)")))
-k5.metric("Columnas con missing", int((quality["missing_n"] > 0).sum()))
+k5.metric("Columnas con datos ausentes", int((quality["missing_n"] > 0).sum()))
 
 tab_summary, tab_quality, tab_desc, tab_compare, tab_docx, tab_methods = st.tabs(
     ["Resumen", "Calidad", "Descriptiva", "Comparaciones", "DOCX previo", "Métodos"]
@@ -153,6 +153,9 @@ with tab_summary:
         )
         fig.update_layout(showlegend=False, margin=dict(l=20, r=20, t=20, b=20))
         st.plotly_chart(fig, width="stretch")
+        st.caption(
+            "Lectura rápida: compara la distribución por abordaje. Una caja más baja suele indicar valores menores en ese grupo."
+        )
     with right:
         cat = st.selectbox(
             "Variable categórica",
@@ -174,6 +177,9 @@ with tab_summary:
         fig = px.bar(plot_df, x=APPROACH, y="n", color=cat, barmode="stack", template="plotly_white")
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
         st.plotly_chart(fig, width="stretch")
+        st.caption(
+            "Lectura rápida: cada segmento muestra cuántos registros hay en cada categoría dentro de cada abordaje."
+        )
 
 with tab_quality:
     st.subheader("Auditoría de variables")
@@ -186,10 +192,13 @@ with tab_quality:
             y="column",
             orientation="h",
             template="plotly_white",
-            labels={"missing_pct": "% missing", "column": ""},
+            labels={"missing_pct": "% datos ausentes / no interpretables", "column": ""},
         )
         fig.update_layout(height=420, margin=dict(l=20, r=20, t=20, b=20))
         st.plotly_chart(fig, width="stretch")
+        st.caption(
+            "Lectura rápida: las barras más largas señalan variables con más datos ausentes o no interpretables, no peores resultados clínicos."
+        )
     st.subheader("Codebook")
     st.dataframe(codebook, width="stretch", hide_index=True)
 
@@ -206,6 +215,10 @@ with tab_compare:
     st.dataframe(results, width="stretch", hide_index=True)
     if not tested.empty:
         plot = tested.dropna(subset=["effect_value"]).copy()
+        binary_mask = plot["outcome_type"].eq("binaria")
+        plot.loc[binary_mask, ["effect_value", "ci95_low", "ci95_high"]] = (
+            plot.loc[binary_mask, ["effect_value", "ci95_low", "ci95_high"]] * 100
+        )
         plot["effect_label"] = plot["outcome"].str.slice(0, 52)
         fig = px.scatter(
             plot,
@@ -216,8 +229,15 @@ with tab_compare:
             template="plotly_white",
         )
         fig.add_vline(x=0, line_dash="dash", line_color="#64748B")
-        fig.update_layout(yaxis_title="", xaxis_title="Tamaño de efecto", margin=dict(l=20, r=20, t=20, b=20))
+        fig.update_layout(
+            yaxis_title="",
+            xaxis_title="Efecto: Intraoral - Preauricular (binarios en puntos porcentuales)",
+            margin=dict(l=20, r=20, t=20, b=20),
+        )
         st.plotly_chart(fig, width="stretch")
+        st.caption(
+            "Lectura rápida: los puntos a la izquierda de 0 favorecen al intraoral cuando el desenlace es carga postoperatoria o evento adverso."
+        )
     if not skipped.empty:
         st.subheader("No testadas")
         st.dataframe(skipped[["outcome", "analysis_status", "interpretation_note"]], width="stretch", hide_index=True)

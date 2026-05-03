@@ -300,7 +300,7 @@ def build_docx(markdown_text: str) -> None:
     sample_rows = [
         ["Registros analizados", "41"],
         ["Columnas auditadas", str(len(quality))],
-        ["Columnas con missing/no interpretable", str(int((quality["missing_n"] > 0).sum()))],
+        ["Columnas con datos ausentes/no interpretables", str(int((quality["missing_n"] > 0).sum()))],
         ["Valores observados en Sexo", sex_values],
     ]
     sample_rows.extend([[f"Abordaje {row['level']}", str(int(row["n"]))] for _, row in approach_counts.iterrows()])

@@ -170,6 +170,16 @@
         margin: 10px 0 0;
       }
 
+      .chart-note {
+        margin: 10px 0 0;
+        padding: 10px 12px;
+        border-left: 3px solid var(--teal);
+        background: #f0fdfa;
+        color: #134e4a;
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
       .two {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       }
@@ -308,10 +318,18 @@
           <div class="panel">
             <h2>Tamaños de efecto</h2>
             <div id="effectChart"></div>
+            <p class="chart-note">
+              Lectura rápida: los puntos a la izquierda de 0 favorecen al abordaje intraoral cuando el desenlace representa carga postoperatoria
+              o evento adverso. En variables binarias, el efecto se muestra en puntos porcentuales.
+            </p>
           </div>
           <div class="panel">
-            <h2>Missingness</h2>
+            <h2>Datos ausentes / no interpretables</h2>
             <div id="missingChart"></div>
+            <p class="chart-note">
+              Lectura rápida: cuanto más larga es la barra, más registros de esa columna no se pueden usar directamente en el análisis. Esto no
+              significa peor resultado clínico, sino menor calidad o claridad de esa variable.
+            </p>
           </div>
         </div>
       </section>
@@ -319,6 +337,10 @@
       <section id="results" class="tab">
         <div class="panel">
           <h2>Resultados estadísticos</h2>
+          <p class="chart-note">
+            Lectura rápida: esta tabla resume la comparación Intraoral vs Preauricular. El efecto negativo suele indicar valores menores en
+            intraoral; para desenlaces binarios se interpreta como diferencia de riesgo.
+          </p>
           <div class="table-wrap" id="resultsTable"></div>
         </div>
       </section>
@@ -326,6 +348,10 @@
       <section id="quality" class="tab">
         <div class="panel">
           <h2>Auditoría de datos</h2>
+          <p class="chart-note">
+            Lectura rápida: esta tabla sirve para saber qué columnas son fiables, cuáles tienen ausentes y cuáles requieren cautela antes de
+            sacar conclusiones.
+          </p>
           <div class="table-wrap" id="qualityTable"></div>
         </div>
         <div class="panel">
@@ -337,6 +363,9 @@
       <section id="descriptive" class="tab">
         <div class="panel">
           <h2>Variables cuantitativas</h2>
+          <p class="chart-note">
+            Lectura rápida: la descriptiva muestra el tamaño de muestra, mediana, rango intercuartílico y extremos por grupo, sin asumir causalidad.
+          </p>
           <div class="table-wrap" id="continuousTable"></div>
         </div>
         <div class="panel">
@@ -358,15 +387,80 @@
 
       let dashboardData = null;
 
+      const columnLabels = {
+        analysis_status: "Estado",
+        outcome: "Desenlace",
+        outcome_type: "Tipo",
+        comparison: "Comparación",
+        test: "Prueba",
+        n_group_1: "N intraoral",
+        n_group_2: "N preauricular",
+        median_group_1: "Mediana intraoral",
+        median_group_2: "Mediana preauricular",
+        effect: "Efecto",
+        effect_value: "Valor del efecto",
+        ci95_low: "IC95% bajo",
+        ci95_high: "IC95% alto",
+        secondary_effect: "Efecto secundario",
+        secondary_effect_value: "Valor secundario",
+        statistic: "Estadístico",
+        p_value: "p",
+        interpretation_note: "Nota",
+        events_group_1: "Eventos intraoral",
+        events_group_2: "Eventos preauricular",
+        risk_group_1: "Riesgo intraoral",
+        risk_group_2: "Riesgo preauricular",
+        secondary_ci95_low: "IC95% secundario bajo",
+        secondary_ci95_high: "IC95% secundario alto",
+        column: "Variable",
+        inferred_role: "Rol",
+        unit_or_scale: "Unidad/escala",
+        dtype: "Tipo de dato",
+        n_rows: "N registros",
+        missing_n: "Datos ausentes (n)",
+        missing_pct: "Datos ausentes (%)",
+        unique_n: "Valores únicos",
+        constant_or_near_constant: "Constante/casi constante",
+        suspicious_values: "Valores sospechosos",
+        examples: "Ejemplos",
+        group: "Grupo",
+        variable: "Variable",
+        level: "Valor",
+        n: "n",
+        denominator_records: "Denominador total",
+        denominator_nonmissing: "Denominador analizable",
+        pct_records: "% total",
+        pct_nonmissing: "% analizable",
+        mean: "Media",
+        sd: "DE",
+        median: "Mediana",
+        q1: "Q1",
+        q3: "Q3",
+        min: "Mínimo",
+        max: "Máximo",
+        role: "Rol",
+        public_output: "Salida pública",
+        coding_or_values: "Codificación/valores",
+        transformation_or_note: "Transformación/nota",
+      };
+
+      const displayCell = (value) => {
+        if (value === null || value === undefined) return "";
+        if (value === "Missing") return "Ausente/no interpretable";
+        if (value === true) return "Sí";
+        if (value === false) return "No";
+        return value;
+      };
+
       const table = (rows) => {
         if (!rows || !rows.length) return "<p>No hay datos disponibles.</p>";
         const columns = Object.keys(rows[0]);
-        const head = columns.map((c) => `<th>${c}</th>`).join("");
+        const head = columns.map((c) => `<th>${columnLabels[c] || c}</th>`).join("");
         const body = rows
           .map(
             (r) =>
               `<tr>${columns
-                .map((c) => `<td>${r[c] === null || r[c] === undefined ? "" : r[c]}</td>`)
+                .map((c) => `<td>${displayCell(r[c])}</td>`)
                 .join("")}</tr>`,
           )
           .join("");
@@ -415,6 +509,21 @@
         });
       };
 
+      const effectPlotValue = (row) => {
+        const value = Number(row.effect_value);
+        return row.outcome_type === "binaria" ? value * 100 : value;
+      };
+
+      const effectPlotLow = (row) => {
+        const value = Number(row.ci95_low);
+        return row.outcome_type === "binaria" ? value * 100 : value;
+      };
+
+      const effectPlotHigh = (row) => {
+        const value = Number(row.ci95_high);
+        return row.outcome_type === "binaria" ? value * 100 : value;
+      };
+
       const renderDashboard = () => {
         const quality = filteredQuality();
         const allQuality = dashboardData.quality || [];
@@ -426,7 +535,7 @@
         document.getElementById("metrics").innerHTML = [
           metric("Registros analizados", nRows),
           metric("Columnas auditadas", allQuality.length),
-          metric("Columnas con missing", missingCols),
+          metric("Columnas con datos ausentes", missingCols),
           metric("Resultados filtrados", results.length),
         ].join("");
 
@@ -443,24 +552,28 @@
           "effectChart",
           [
             {
-              x: tested.map((r) => Number(r.effect_value)),
+              x: tested.map(effectPlotValue),
               y: tested.map((r) => r.outcome),
               error_x: {
                 type: "data",
                 symmetric: false,
-                array: tested.map((r) => Number(r.ci95_high) - Number(r.effect_value)),
-                arrayminus: tested.map((r) => Number(r.effect_value) - Number(r.ci95_low)),
+                array: tested.map((r) => effectPlotHigh(r) - effectPlotValue(r)),
+                arrayminus: tested.map((r) => effectPlotValue(r) - effectPlotLow(r)),
               },
               mode: "markers",
               marker: { size: 10, color: tested.map((r) => (r.outcome_type === "binaria" ? "#b45309" : "#2563eb")) },
               type: "scatter",
               orientation: "h",
-              hovertemplate: "%{y}<br>Efecto: %{x:.3f}<extra></extra>",
+              hovertemplate: "%{y}<br>Efecto mostrado: %{x:.1f}<extra></extra>",
             },
           ],
           {
             margin: { l: 190, r: 20, t: 10, b: 40 },
-            xaxis: { title: "Tamaño de efecto", zeroline: true, zerolineColor: "#64748b" },
+            xaxis: {
+              title: "Efecto: Intraoral - Preauricular (binarios en puntos porcentuales)",
+              zeroline: true,
+              zerolineColor: "#64748b",
+            },
             yaxis: { automargin: true },
             template: "plotly_white",
           },
@@ -477,12 +590,12 @@
               type: "bar",
               orientation: "h",
               marker: { color: "#0f766e" },
-              hovertemplate: "%{y}<br>% missing: %{x:.1f}<extra></extra>",
+              hovertemplate: "%{y}<br>% datos ausentes/no interpretables: %{x:.1f}<extra></extra>",
             },
           ],
           {
             margin: { l: 170, r: 20, t: 10, b: 40 },
-            xaxis: { title: "% missing" },
+            xaxis: { title: "% datos ausentes / no interpretables" },
             yaxis: { automargin: true },
             template: "plotly_white",
           },
