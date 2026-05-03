@@ -231,7 +231,7 @@ with tab_compare:
         fig.add_vline(x=0, line_dash="dash", line_color="#64748B")
         fig.update_layout(
             yaxis_title="",
-            xaxis_title="Efecto (Intraoral - Preauricular)",
+            xaxis_title="Efecto (Intraoral - Preauricular; unidades propias)",
             margin=dict(l=20, r=20, t=20, b=20),
         )
         finite_values = pd.concat([plot["effect_value"], plot["ci95_low"], plot["ci95_high"], pd.Series([0])]).dropna()
@@ -242,8 +242,19 @@ with tab_compare:
             fig.update_xaxes(range=[low - span * 0.08, high + span * 0.08])
         fig.update_layout(height=max(300, min(560, 150 + 38 * len(plot))))
         st.plotly_chart(fig, width="stretch")
+        if plot["outcome_type"].nunique() > 1:
+            scale_text = "No compares la magnitud entre desenlaces con unidades distintas; sirve para ver dirección e incertidumbre."
+        elif plot["outcome_type"].iloc[0] == "binaria":
+            scale_text = "El efecto se muestra en puntos porcentuales."
+        else:
+            scale_text = "El efecto se muestra en la unidad original del desenlace."
         st.caption(
-            "Lectura rápida: el 0 significa ausencia de diferencia. En desenlaces de carga postoperatoria o eventos adversos, los puntos a la izquierda de 0 indican menor carga en intraoral; en desenlaces beneficiosos, la dirección se interpreta al revés. Los binarios se muestran en puntos porcentuales."
+            "Lectura rápida: el 0 significa ausencia de diferencia. En desenlaces de carga postoperatoria o eventos adversos, los puntos a la izquierda de 0 indican menor carga en intraoral; en desenlaces beneficiosos, la dirección se interpreta al revés. "
+            + scale_text
+        )
+    else:
+        st.info(
+            "No hay una comparación estadística testada para la selección actual. La variable puede ser constante, tener datos insuficientes o requerir aclaración de codificación."
         )
     if not skipped.empty:
         st.subheader("No testadas")

@@ -318,7 +318,7 @@
           <div class="panel">
             <h2>Tamaños de efecto</h2>
             <div id="effectChart"></div>
-            <p class="chart-note">
+            <p class="chart-note" id="effectNote">
               Lectura rápida: el 0 significa ausencia de diferencia. En desenlaces de carga postoperatoria o eventos adversos, los puntos a la
               izquierda de 0 indican menor carga en el abordaje intraoral. En desenlaces beneficiosos, como buen resultado funcional, la dirección
               se interpreta al revés. En variables binarias, el efecto se muestra en puntos porcentuales.
@@ -529,7 +529,7 @@
         const values = rows
           .flatMap((row) => [effectPlotValue(row), effectPlotLow(row), effectPlotHigh(row), 0])
           .filter((value) => Number.isFinite(value));
-        if (!values.length) return undefined;
+        if (!values.length) return [-1, 1];
         const min = Math.min(...values);
         const max = Math.max(...values);
         const span = Math.max(max - min, 1);
@@ -537,6 +537,20 @@
       };
 
       const effectChartHeight = (rows) => Math.max(280, Math.min(560, 150 + rows.length * 38));
+
+      const effectNoteText = (rows) => {
+        if (!rows.length) {
+          return "Lectura rápida: no hay una comparación estadística testada para la selección actual. La variable puede ser constante, tener datos insuficientes o requerir aclaración de codificación.";
+        }
+        const types = new Set(rows.map((row) => row.outcome_type));
+        const mixed = types.size > 1;
+        const scale = mixed
+          ? "No compares la magnitud entre desenlaces con unidades distintas; sirve para ver dirección e incertidumbre."
+          : rows[0].outcome_type === "binaria"
+            ? "El efecto se muestra en puntos porcentuales."
+            : "El efecto se muestra en la unidad original del desenlace.";
+        return `Lectura rápida: el 0 significa ausencia de diferencia. En desenlaces de carga postoperatoria o eventos adversos, los puntos a la izquierda de 0 indican menor carga en el abordaje intraoral. En desenlaces beneficiosos, como buen resultado funcional, la dirección se interpreta al revés. ${scale}`;
+      };
 
       const renderDashboard = () => {
         const quality = filteredQuality();
@@ -561,6 +575,21 @@
         document.getElementById("continuousTable").innerHTML = table(filteredDescriptive(dashboardData.descriptiveContinuous));
         document.getElementById("categoricalTable").innerHTML = table(filteredDescriptive(dashboardData.descriptiveCategorical));
         document.getElementById("reportMarkdown").innerHTML = marked.parse(dashboardData.report || "");
+        document.getElementById("effectNote").textContent = effectNoteText(tested);
+
+        const effectAnnotations = tested.length
+          ? []
+          : [
+              {
+                text: "Sin comparación testada para la selección actual",
+                x: 0.5,
+                y: 0.5,
+                xref: "paper",
+                yref: "paper",
+                showarrow: false,
+                font: { color: "#475569", size: 14 },
+              },
+            ];
 
         Plotly.react(
           "effectChart",
@@ -585,13 +614,14 @@
           {
             margin: { l: 190, r: 20, t: 10, b: 58 },
             xaxis: {
-              title: "Efecto (Intraoral - Preauricular)",
+              title: "Efecto (Intraoral - Preauricular; unidades propias)",
               range: effectAxisRange(tested),
               zeroline: true,
               zerolineColor: "#64748b",
             },
             yaxis: { automargin: true },
             height: effectChartHeight(tested),
+            annotations: effectAnnotations,
             template: "plotly_white",
           },
           { responsive: true, displayModeBar: false },
