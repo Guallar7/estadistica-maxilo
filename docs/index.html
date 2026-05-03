@@ -164,10 +164,6 @@
         font-size: 0.92rem;
       }
 
-      select[multiple] {
-        min-height: 112px;
-      }
-
       .filter-note {
         color: var(--muted);
         font-size: 0.9rem;
@@ -266,7 +262,9 @@
           </label>
           <label>
             Desenlace
-            <select id="outcomeFilter" multiple></select>
+            <select id="outcomeFilter">
+              <option value="all">Todos</option>
+            </select>
           </label>
           <label>
             Tipo de desenlace
@@ -386,14 +384,14 @@
 
       const filteredResults = () => {
         const query = document.getElementById("textFilter").value.trim();
-        const selectedOutcomes = [...document.getElementById("outcomeFilter").selectedOptions].map((option) => option.value);
+        const selectedOutcome = document.getElementById("outcomeFilter").value;
         const type = document.getElementById("typeFilter").value;
         const status = document.getElementById("statusFilter").value;
         const pFilter = document.getElementById("pFilter").value;
         return (dashboardData.results || []).filter((row) => {
           const p = Number(row.p_value);
           if (!textIncludes(row, query)) return false;
-          if (selectedOutcomes.length && !selectedOutcomes.includes(row.outcome)) return false;
+          if (selectedOutcome !== "all" && row.outcome !== selectedOutcome) return false;
           if (type !== "all" && row.outcome_type !== type) return false;
           if (status !== "all" && row.analysis_status !== status) return false;
           if (pFilter === "lt005" && !(Number.isFinite(p) && p < 0.05)) return false;
