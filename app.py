@@ -119,7 +119,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<div class='warn-note'>La variable Sexo ya está corregida como Mujer/Hombre. Mantener cautela con recidiva y valores `?` antes de usar conclusiones definitivas.</div>",
+    "<div class='warn-note'>La variable Sexo ya está corregida como Mujer/Hombre. Deben revisarse en el Excel original los campos con valores `?`, especialmente recidiva, antes de usar conclusiones definitivas.</div>",
     unsafe_allow_html=True,
 )
 
