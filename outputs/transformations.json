@@ -1,0 +1,54 @@
+[
+  {
+    "column": "Lado Afectado",
+    "transformation": "Normalización conservadora de mayúsculas y variantes Derecho/Izquierdo."
+  },
+  {
+    "column": "Abordaje",
+    "transformation": "Estandarización de etiquetas de abordaje: Intraoral y Preauricular."
+  },
+  {
+    "column": "TIPO DE COMPLICACIÓN",
+    "transformation": "Normalización de acentos y capitalización de tipos de complicación."
+  },
+  {
+    "column": "Lesión Nervio Facial (Sí=1/No=0)",
+    "transformation": "Conversión a binaria 0/1; otros valores quedan como perdidos."
+  },
+  {
+    "column": "Cicatriz Visible (Sí: 1/No: 0)",
+    "transformation": "Conversión a binaria 0/1; otros valores quedan como perdidos."
+  },
+  {
+    "column": "Oclusión (Normal: 1/Alterada:0)",
+    "transformation": "Conversión a binaria 0/1; otros valores quedan como perdidos."
+  },
+  {
+    "column": "Resultado Funcional a 6m (Bueno:1 / Malo:0)",
+    "transformation": "Conversión a binaria 0/1; otros valores quedan como perdidos."
+  },
+  {
+    "column": "Complicaciones: SI: 1 /NO: 0)",
+    "transformation": "Conversión a binaria 0/1; otros valores quedan como perdidos."
+  },
+  {
+    "column": "Resultado Estético numérico",
+    "transformation": "Columna derivada numérica; `no aplica` y `?` se tratan como no analizables."
+  },
+  {
+    "column": "Tiempo Recidiva numérico (meses)",
+    "transformation": "Columna derivada numérica; `No` no se interpreta como meses."
+  },
+  {
+    "column": "Recidiva binaria",
+    "transformation": "Recodificación SI/NO a 1/0; `?` queda como desconocido."
+  },
+  {
+    "column": "Necesidad ortognática binaria",
+    "transformation": "Recodificación SI/NO a 1/0; `?` queda como desconocido."
+  },
+  {
+    "column": "Sangrado postoperatorio >0 ml",
+    "transformation": "Indicador derivado de cualquier sangrado postoperatorio (>0 ml)."
+  }
+]

@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+.streamlit/secrets.toml
+
+# Raw clinical/source files: do not publish.
+*.xlsx
+*.xls
+*.docx
+*.doc
+
+# Row-level or source-derived data: keep local only.
+outputs/clean_public_data.csv
+outputs/clean_public_data.parquet
+outputs/docx_extracted_text.txt
+outputs/figures/
+
+# Local/cache artifacts.
+*.pyc
+.DS_Store

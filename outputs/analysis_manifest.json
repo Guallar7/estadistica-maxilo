@@ -1,0 +1,32 @@
+{
+  "data_source": "Base_Estudio_Hiperplasia_Condilar ( registro entero).xlsx",
+  "docx_source": "ANALISIS DE DATOS HIPERPLASIA CONDILO.docx",
+  "n_rows": 41,
+  "n_columns_raw": 19,
+  "outputs": [
+    "analysis_manifest.json",
+    "clean_public_data.csv",
+    "clean_public_data.parquet",
+    "codebook.csv",
+    "data_quality.csv",
+    "descriptive_categorical.csv",
+    "descriptive_continuous.csv",
+    "docx_extracted_text.txt",
+    "docx_review.json",
+    "docx_review.md",
+    "figures\\cicatriz_visible_s_1_no_0_bar.html",
+    "figures\\complicaciones_si_1_no_0_bar.html",
+    "figures\\dolor_postoperatorio_0_10_box.html",
+    "figures\\lesi_n_nervio_facial_s_1_no_0_bar.html",
+    "figures\\necesidad_ortogn_tica_binaria_bar.html",
+    "figures\\recuperaci_n_funcional_d_as_box.html",
+    "figures\\resultado_est_tico_num_rico_box.html",
+    "figures\\resultado_funcional_a_6m_bueno_1_malo_0_bar.html",
+    "figures\\sangrado_postop_ml_box.html",
+    "figures\\sangrado_postoperatorio_0_ml_bar.html",
+    "figures\\tiempo_quir_rgico_min_box.html",
+    "report.md",
+    "statistical_results.csv",
+    "transformations.json"
+  ]
+}

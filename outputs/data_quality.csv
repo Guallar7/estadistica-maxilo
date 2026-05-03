@@ -1,0 +1,25 @@
+column,inferred_role,unit_or_scale,dtype,n_rows,missing_n,missing_pct,unique_n,constant_or_near_constant,suspicious_values,examples
+ID Paciente,identificador sensible,,str,41,0,0.0,41,False,,
+Edad,cuantitativa/ordinal,años,int64,41,0,0.0,16,False,,19; 18; 49; 30; 16; 17; 15; 20
+Sexo,categórica,,str,41,0,0.0,3,False,,H; M; F
+Lado Afectado,categórica,,str,41,0,0.0,2,False,,Derecho; Izquierdo
+Abordaje,exposición/grupo principal,,str,41,0,0.0,2,False,,Preauricular; Intraoral
+Tiempo Quirúrgico (min),cuantitativa/ordinal,minutos,int64,41,0,0.0,19,False,,60; 120; 90; 50; 70; 75; 80; 81
+Lesión Nervio Facial (Sí=1/No=0),binaria,,Float64,41,0,0.0,2,False,,0.0; 1.0
+Sangrado Postop (ml),cuantitativa/ordinal,ml,int64,41,0,0.0,8,False,,10; 33; 15; 5; 11; 18; 0; 20
+Cicatriz Visible (Sí: 1/No: 0),binaria,,Float64,41,0,0.0,2,False,,1.0; 0.0
+Dolor Postoperatorio (0–10),cuantitativa/ordinal,escala,int64,41,0,0.0,8,False,,4; 5; 9; 6; 3; 0; 1; 2
+Oclusión (Normal: 1/Alterada:0),binaria,,Float64,41,0,0.0,1,True,,0.0
+Recuperación Funcional (días),cuantitativa/ordinal,días,float64,41,1,2.44,8,False,,8.0; 10.0; 14.0; 7.0; 5.0; 6.0; 9.0; 4.0
+Resultado Estético (1–10),categórica,escala,str,41,1,2.44,5,False,no aplica,9; 8; 7; 6; no aplica
+Recidiva (Sí/No),categórica,,str,41,0,0.0,2,False,?; NO,NO; ?
+Tiempo Recidiva (meses),categórica,meses,str,41,23,56.1,1,True,No,No
+Resultado Funcional a 6m (Bueno:1 / Malo:0),binaria,,Float64,41,0,0.0,2,False,,1.0; 0.0
+Necesidad de ortognatica posteriormente,categórica,,str,41,0,0.0,4,False,?; NO,SI; NO; ?; Si
+Complicaciones: SI: 1 /NO: 0),binaria,,Float64,41,1,2.44,2,False,,0.0; 1.0
+TIPO DE COMPLICACIÓN,categórica,,str,41,28,68.29,4,False,,Parálisis; Dehiscencia; Infección; Hematoma
+Resultado Estético numérico,cuantitativa/ordinal,,float64,41,19,46.34,4,False,,9.0; 8.0; 7.0; 6.0
+Tiempo Recidiva numérico (meses),binaria,meses,float64,41,41,100.0,0,True,,
+Recidiva binaria,binaria,,Float64,41,5,12.2,1,True,,0.0
+Necesidad ortognática binaria,binaria,,Float64,41,2,4.88,2,False,,1.0; 0.0
+Sangrado postoperatorio >0 ml,binaria,ml,Float64,41,0,0.0,2,False,,1.0; 0.0

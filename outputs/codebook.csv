@@ -1,0 +1,25 @@
+column,role,unit_or_scale,public_output,coding_or_values,transformation_or_note
+ID Paciente,identificador sensible,,no,,
+Edad,cuantitativa/ordinal,años,yes,19; 18; 49; 30; 16; 17; 15; 20; 26; 22; 21; 28,
+Sexo,categórica,,yes,H; M; F,
+Lado Afectado,categórica,,yes,Derecho; Izquierdo,Normalización conservadora de mayúsculas y variantes Derecho/Izquierdo.
+Abordaje,exposición/grupo principal,,yes,Preauricular; Intraoral,Estandarización de etiquetas de abordaje: Intraoral y Preauricular.
+Tiempo Quirúrgico (min),cuantitativa/ordinal,minutos,yes,60; 120; 90; 50; 70; 75; 80; 81; 93; 45; 51; 35,
+Lesión Nervio Facial (Sí=1/No=0),binaria,,yes,0.0; 1.0,Conversión a binaria 0/1; otros valores quedan como perdidos.
+Sangrado Postop (ml),cuantitativa/ordinal,ml,yes,10; 33; 15; 5; 11; 18; 0; 20,
+Cicatriz Visible (Sí: 1/No: 0),binaria,,yes,1.0; 0.0,Conversión a binaria 0/1; otros valores quedan como perdidos.
+Dolor Postoperatorio (0–10),cuantitativa/ordinal,escala,yes,4; 5; 9; 6; 3; 0; 1; 2,
+Oclusión (Normal: 1/Alterada:0),binaria,,yes,0.0,Conversión a binaria 0/1; otros valores quedan como perdidos.
+Recuperación Funcional (días),cuantitativa/ordinal,días,yes,8.0; 10.0; 14.0; 7.0; 5.0; 6.0; 9.0; 4.0,
+Resultado Estético (1–10),categórica,escala,yes,9; 8; 7; 6; no aplica,
+Recidiva (Sí/No),categórica,,yes,NO; ?,
+Tiempo Recidiva (meses),categórica,meses,yes,No,
+Resultado Funcional a 6m (Bueno:1 / Malo:0),binaria,,yes,1.0; 0.0,Conversión a binaria 0/1; otros valores quedan como perdidos.
+Necesidad de ortognatica posteriormente,categórica,,yes,SI; NO; ?; Si,
+Complicaciones: SI: 1 /NO: 0),binaria,,yes,0.0; 1.0,Conversión a binaria 0/1; otros valores quedan como perdidos.
+TIPO DE COMPLICACIÓN,categórica,,yes,Parálisis; Dehiscencia; Infección; Hematoma,Normalización de acentos y capitalización de tipos de complicación.
+Resultado Estético numérico,cuantitativa/ordinal,,yes,9.0; 8.0; 7.0; 6.0,Columna derivada numérica; `no aplica` y `?` se tratan como no analizables.
+Tiempo Recidiva numérico (meses),binaria,meses,yes,,Columna derivada numérica; `No` no se interpreta como meses.
+Recidiva binaria,binaria,,yes,0.0,Recodificación SI/NO a 1/0; `?` queda como desconocido.
+Necesidad ortognática binaria,binaria,,yes,1.0; 0.0,Recodificación SI/NO a 1/0; `?` queda como desconocido.
+Sangrado postoperatorio >0 ml,binaria,ml,yes,1.0; 0.0,Indicador derivado de cualquier sangrado postoperatorio (>0 ml).
