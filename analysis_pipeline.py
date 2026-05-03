@@ -751,6 +751,51 @@ def safe_name(name: str) -> str:
     return cleaned[:80].lower()
 
 
+def excel_review_rows() -> list[tuple[str, str, str]]:
+    return [
+        (
+            "Recidiva (Sí/No)",
+            "Sustituir cada ? por Sí, No o Desconocido, usando un criterio clínico único.",
+            "Permite estimar tasa de recidiva y comparar recidiva por abordaje con denominadores claros.",
+        ),
+        (
+            "Tiempo Recidiva (meses)",
+            "Dejar valores numéricos solo en pacientes con recidiva confirmada; en no recidiva, registrar seguimiento/censura en una columna separada.",
+            "Permite analizar tiempo hasta recidiva o describir seguimiento mínimo de forma interpretable.",
+        ),
+        (
+            "Oclusión (Normal: 1/Alterada:0)",
+            "Confirmar si 0 significa normal, alterada o ausencia de alteración. Ahora la columna es constante y no se puede contrastar.",
+            "Evita una conclusión errónea sobre oclusión y permite evaluar si hubo diferencias entre abordajes.",
+        ),
+        (
+            "Resultado Estético (1-10)",
+            "Distinguir no aplica de dato perdido; definir cuándo aplica y quién lo valoró.",
+            "Permite comparar resultado estético solo en pacientes evaluables y con denominador honesto.",
+        ),
+        (
+            "Complicaciones: SI: 1 /NO: 0)",
+            "Resolver el registro ausente y confirmar que 1/0 significan siempre sí/no.",
+            "Mejora la comparación de seguridad y evita excluir registros innecesariamente.",
+        ),
+        (
+            "TIPO DE COMPLICACIÓN",
+            "Separar explícitamente sin complicación de dato no registrado y normalizar categorías.",
+            "Permite resumir el perfil de complicaciones por abordaje y no solo la variable binaria.",
+        ),
+        (
+            "Necesidad de ortognática posteriormente",
+            "Resolver valores ? y estandarizar Sí/No.",
+            "Permite valorar con más precisión la necesidad posterior de cirugía ortognática.",
+        ),
+        (
+            "Seguimiento",
+            "Añadir si es posible fecha de cirugía, fecha de última revisión y meses de seguimiento.",
+            "Aporta contexto temporal a recidiva, resultado funcional y complicaciones tardías.",
+        ),
+    ]
+
+
 def fmt_p(value: object) -> str:
     if pd.isna(value):
         return "no aplicable"
@@ -808,9 +853,21 @@ def write_report(
         "",
         "En sencillo: hay resultados útiles, pero varias columnas necesitan confirmación de codificación antes de una lectura clínica definitiva.",
         "",
+        "## Datos del Excel original que conviene revisar",
+        "",
+        "Esta es la revisión de mayor rendimiento antes de repetir o ampliar el análisis. No implica rehacer todo el Excel, sino corregir las columnas que más limitan la interpretación clínica.",
+        "",
+        "| Campo del Excel | Qué revisar | Qué valor aportaría al análisis |",
+        "|---|---|---|",
+    ]
+    lines.extend(f"| {field} | {action} | {value} |" for field, action, value in excel_review_rows())
+    lines.extend([
+        "",
+        "En sencillo: si el servicio corrige especialmente recidiva, tiempo de recidiva, oclusión y complicaciones, el análisis ganará valor porque podrá responder preguntas clínicas que ahora solo pueden dejarse como pendientes.",
+        "",
         "## Resultados principales por abordaje",
         "",
-    ]
+    ])
 
     tested = results[results["analysis_status"] == "Testado"].copy() if not results.empty else pd.DataFrame()
     if tested.empty:

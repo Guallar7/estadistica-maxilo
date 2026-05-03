@@ -49,6 +49,51 @@ def cell_text(value: object) -> str:
     return str(value)
 
 
+def excel_review_rows() -> list[list[str]]:
+    return [
+        [
+            "Recidiva (Sí/No)",
+            "Sustituir cada ? por Sí, No o Desconocido, usando un criterio clínico único.",
+            "Permitirá estimar tasa de recidiva y comparar recidiva por abordaje con denominadores claros.",
+        ],
+        [
+            "Tiempo Recidiva (meses)",
+            "Dejar valores numéricos solo en pacientes con recidiva confirmada; en no recidiva, registrar seguimiento/censura en una columna separada.",
+            "Permitirá analizar tiempo hasta recidiva o, al menos, describir seguimiento mínimo de forma interpretable.",
+        ],
+        [
+            "Oclusión (Normal: 1/Alterada:0)",
+            "Confirmar si 0 significa normal, alterada o ausencia de alteración. Ahora la columna es constante y no se puede contrastar.",
+            "Evitará una conclusión errónea sobre oclusión y permitirá evaluar si hubo diferencias entre abordajes.",
+        ],
+        [
+            "Resultado Estético (1-10)",
+            "Distinguir no aplica de dato perdido; definir cuándo aplica y quién lo valoró.",
+            "Permitirá comparar resultado estético solo en pacientes evaluables y con denominador honesto.",
+        ],
+        [
+            "Complicaciones: SI: 1 /NO: 0)",
+            "Resolver el registro ausente y confirmar que 1/0 significan siempre sí/no.",
+            "Mejorará la comparación de seguridad y evitará excluir registros innecesariamente.",
+        ],
+        [
+            "TIPO DE COMPLICACIÓN",
+            "Separar explícitamente sin complicación de dato no registrado y normalizar categorías: parálisis, hematoma, dehiscencia, infección, otras.",
+            "Permitirá resumir el perfil de complicaciones por abordaje y no solo la variable binaria.",
+        ],
+        [
+            "Necesidad de ortognática posteriormente",
+            "Resolver valores ? y estandarizar Sí/No.",
+            "Permitirá valorar con más precisión la necesidad posterior de cirugía ortognática.",
+        ],
+        [
+            "Seguimiento",
+            "Añadir si es posible fecha de cirugía, fecha de última revisión y meses de seguimiento.",
+            "Aportará contexto temporal a recidiva, resultado funcional y complicaciones tardías.",
+        ],
+    ]
+
+
 def build_markdown() -> str:
     quality = read_csv("data_quality.csv")
     results = read_csv("statistical_results.csv")
@@ -110,6 +155,20 @@ def build_markdown() -> str:
         "- Los identificadores de paciente se usaron solo para control interno de duplicados y no se incluyen en este informe.",
         "",
         "En sencillo: la base permite responder varias preguntas comparativas, pero algunas columnas necesitan aclaración antes de cerrar conclusiones definitivas.",
+        "",
+        "## Datos del Excel original que conviene revisar",
+        "",
+        "Esta es la revisión de mayor rendimiento antes de repetir o ampliar el análisis. No implica rehacer todo el Excel, sino corregir las columnas que más limitan la interpretación clínica.",
+        "",
+        "| Campo del Excel | Qué revisar | Qué valor aportaría al análisis |",
+        "|---|---|---|",
+    ])
+    for field, action, value in excel_review_rows():
+        lines.append(f"| {field} | {action} | {value} |")
+
+    lines.extend([
+        "",
+        "En sencillo: si el servicio corrige especialmente recidiva, tiempo de recidiva, oclusión y complicaciones, el análisis ganará valor porque podrá responder preguntas clínicas que ahora solo pueden dejarse como pendientes.",
         "",
         "## Resultados comparativos principales",
         "",
@@ -314,6 +373,23 @@ def build_docx(markdown_text: str) -> None:
         "Los identificadores de paciente se usaron solo para control interno de duplicados y no se incluyen en este informe.",
     ]:
         document.add_paragraph(item, style="List Bullet")
+
+    document.add_heading("Datos del Excel original que conviene revisar", level=1)
+    add_paragraph(
+        document,
+        "Esta es la revisión de mayor rendimiento antes de repetir o ampliar el análisis. No implica rehacer todo el Excel, sino corregir las columnas que más limitan la interpretación clínica.",
+    )
+    add_table(
+        document,
+        ["Campo del Excel", "Qué revisar", "Qué valor aportaría"],
+        excel_review_rows(),
+        widths=[4.8, 5.6, 5.6],
+    )
+    add_paragraph(
+        document,
+        "En sencillo: si el servicio corrige especialmente recidiva, tiempo de recidiva, oclusión y complicaciones, el análisis ganará valor porque podrá responder preguntas clínicas que ahora solo pueden dejarse como pendientes.",
+        bold_prefix="En sencillo:",
+    )
 
     result_section = document.add_section(WD_SECTION.NEW_PAGE)
     result_section.orientation = WD_ORIENTATION.LANDSCAPE
