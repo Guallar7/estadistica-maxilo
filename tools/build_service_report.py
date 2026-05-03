@@ -149,7 +149,7 @@ def build_markdown() -> str:
         "Advertencias de calidad relevantes:",
         "",
         "- La variable Sexo se corrigió por error de creación de la base: M/F se unificaron como Mujer y H como Hombre.",
-        "- Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.",
+        "- Recidiva contiene valores ? que deben revisarse en el Excel original; no se estima una tasa definitiva de recidiva.",
         "- Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.",
         "- Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.",
         "- Los identificadores de paciente se usaron solo para control interno de duplicados y no se incluyen en este informe.",
@@ -367,7 +367,7 @@ def build_docx(markdown_text: str) -> None:
 
     for item in [
         "La variable Sexo se corrigió por error de creación de la base: M/F se unificaron como Mujer y H como Hombre.",
-        "Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.",
+        "Recidiva contiene valores ? que deben revisarse en el Excel original; no se estima una tasa definitiva de recidiva.",
         "Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.",
         "Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.",
         "Los identificadores de paciente se usaron solo para control interno de duplicados y no se incluyen en este informe.",

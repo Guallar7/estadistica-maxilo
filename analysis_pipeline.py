@@ -848,7 +848,7 @@ def write_report(
         f"- Duplicados por `ID Paciente`: {duplicate_ids}. Los identificadores se excluyen de outputs públicos.",
         f"- Columnas con algún dato ausente/no interpretable: {missing_cols}.",
         f"- Distribución de `Sexo` tras corrección de codificación: {sex_counts}.",
-        f"- `Recidiva` contiene {unknown_recurrence} valores `?`; no se estima tasa definitiva de recidiva.",
+        f"- `Recidiva` contiene {unknown_recurrence} valores `?` que deben revisarse en el Excel original; no se estima tasa definitiva de recidiva.",
         "- `Oclusión` es constante en esta base y no se contrasta inferencialmente.",
         "",
         "En sencillo: hay resultados útiles, pero varias columnas necesitan confirmación de codificación antes de una lectura clínica definitiva.",
