@@ -103,7 +103,7 @@ def build_markdown() -> str:
         "",
         "Advertencias de calidad relevantes:",
         "",
-        "- La variable Sexo contiene F, H y M; no se interpreta hasta confirmar la codificación exacta.",
+        "- La variable Sexo se corrigió por error de creación de la base: M/F se unificaron como Mujer y H como Hombre.",
         "- Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.",
         "- Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.",
         "- Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.",
@@ -158,7 +158,7 @@ def build_markdown() -> str:
         "",
         "- Muestra pequeña y observacional.",
         "- Múltiples comparaciones exploratorias sin endpoint primario predefinido.",
-        "- Codificación ambigua de Sexo y recidiva pendiente de aclaración.",
+        "- Recidiva y tiempo de recidiva pendientes de aclaración.",
         "- Algunas asociaciones pueden estar condicionadas por la indicación quirúrgica y la selección de abordaje.",
         "",
         "## Archivos reproducibles asociados",
@@ -307,7 +307,7 @@ def build_docx(markdown_text: str) -> None:
     add_table(document, ["Indicador", "Resultado"], sample_rows, widths=[8.5, 6.5])
 
     for item in [
-        "La variable Sexo contiene F, H y M; no se interpreta hasta confirmar la codificación exacta.",
+        "La variable Sexo se corrigió por error de creación de la base: M/F se unificaron como Mujer y H como Hombre.",
         "Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.",
         "Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.",
         "Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.",
@@ -387,7 +387,7 @@ def build_docx(markdown_text: str) -> None:
     for item in [
         "Muestra pequeña y observacional.",
         "Múltiples comparaciones exploratorias sin endpoint primario predefinido.",
-        "Codificación ambigua de Sexo y recidiva pendiente de aclaración.",
+        "Recidiva y tiempo de recidiva pendientes de aclaración.",
         "Algunas asociaciones pueden estar condicionadas por la indicación quirúrgica y la selección de abordaje.",
     ]:
         document.add_paragraph(item, style="List Bullet")

@@ -1,5 +1,9 @@
 [
   {
+    "column": "Sexo",
+    "transformation": "Recodificación corregida: M/F -> Mujer; H -> Hombre."
+  },
+  {
     "column": "Lado Afectado",
     "transformation": "Normalización conservadora de mayúsculas y variantes Derecho/Izquierdo."
   },

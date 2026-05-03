@@ -1,7 +1,7 @@
 column,role,unit_or_scale,public_output,coding_or_values,transformation_or_note
 ID Paciente,identificador sensible,,no,,
 Edad,cuantitativa/ordinal,años,yes,19; 18; 49; 30; 16; 17; 15; 20; 26; 22; 21; 28,
-Sexo,categórica,,yes,H; M; F,
+Sexo,categórica,,yes,Hombre; Mujer,Recodificación corregida: M/F -> Mujer; H -> Hombre.
 Lado Afectado,categórica,,yes,Derecho; Izquierdo,Normalización conservadora de mayúsculas y variantes Derecho/Izquierdo.
 Abordaje,exposición/grupo principal,,yes,Preauricular; Intraoral,Estandarización de etiquetas de abordaje: Intraoral y Preauricular.
 Tiempo Quirúrgico (min),cuantitativa/ordinal,minutos,yes,60; 120; 90; 50; 70; 75; 80; 81; 93; 45; 51; 35,

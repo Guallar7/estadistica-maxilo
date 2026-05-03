@@ -13,7 +13,7 @@ En sencillo: esta salida resume la base y compara abordaje intraoral frente a pr
 - Distribución por abordaje: {'Preauricular': 23, 'Intraoral': 18}.
 - Duplicados por `ID Paciente`: 0. Los identificadores se excluyen de outputs públicos.
 - Columnas con algún dato ausente/no interpretable: 9.
-- Valores observados en `Sexo`: F, H, M. No se interpreta sexo hasta confirmar si `M` significa mujer o masculino.
+- Distribución de `Sexo` tras corrección de codificación: {'Mujer': 32, 'Hombre': 9}.
 - `Recidiva` contiene 5 valores `?`; no se estima tasa definitiva de recidiva.
 - `Oclusión` es constante en esta base y no se contrasta inferencialmente.
 
@@ -55,7 +55,7 @@ En sencillo: hay resultados útiles, pero varias columnas necesitan confirmació
 - Incluye valores p expresados como 0.000; se deben reportar con precisión razonable, no como cero.
 - Incluye fragmentos de código con datos introducidos manualmente; esto dificulta auditoría y reproducibilidad.
 - Se apoya mucho en Shapiro-Wilk para decidir normalidad; en muestra pequeña conviene usar resúmenes robustos, gráficos y pruebas no paramétricas justificadas.
-- No documenta de forma suficiente missingness, valores `?`/`no aplica`, denominadores exactos ni codificación ambigua de `Sexo`.
+- No documenta de forma suficiente missingness, valores `?`/`no aplica` ni denominadores exactos; la variable `Sexo` se corrige en la base reproducible.
 - No reporta de forma sistemática tamaños de efecto ni intervalos de confianza, por lo que puede sobredimensionar conclusiones basadas solo en p-valores.
 - La elección de Mann-Whitney para tiempos quirúrgicos es razonable, pero requiere acompañarse de tamaño de efecto e IC.
 - Las referencias a t-test deben justificarse con supuestos; por defecto se evita para estos desenlaces pequeños/sesgados.
@@ -72,5 +72,5 @@ En sencillo: el documento previo orienta qué preguntas se querían contestar, p
 ## Limitaciones
 
 - Muestra pequeña, observacional y con múltiples comparaciones exploratorias.
-- La codificación de `Sexo`, recidiva y tiempo de recidiva requiere aclaración antes de inferencias definitivas.
+- La codificación de recidiva y tiempo de recidiva requiere aclaración antes de inferencias definitivas.
 - Algunas asociaciones son estructurales por el propio abordaje, como cicatriz visible, y no deben leerse como efecto causal aislado.

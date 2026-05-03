@@ -1,5 +1,5 @@
 {
-  "report": "# Informe para presentación de resultados - Estudio de hiperplasia condilar\n\nServicio de Cirugía Oral y Maxilofacial, Hospital Universitario Miguel Servet.\n\nPreparado para Juan Antonio, residente del Servicio de Cirugía Oral y Maxilofacial.\n\n## Resumen ejecutivo\n\nSe analizaron 41 registros del estudio. La unidad de análisis se considera un registro paciente/intervención. El análisis es descriptivo y comparativo exploratorio por tipo de abordaje quirúrgico: intraoral frente a preauricular.\n\nEn sencillo: este documento resume los resultados principales para que Juan Antonio pueda presentarlos al servicio. No debe interpretarse como prueba causal, sino como una descripción comparativa de esta muestra.\n\n## Traducción rápida para presentar\n\n- En esta muestra, el abordaje intraoral se comportó mejor en varias variables de carga postoperatoria: menor tiempo quirúrgico, menor sangrado, menos dolor y recuperación algo más rápida.\n- Las diferencias más claras aparecen en sangrado, cicatriz visible y lesión del nervio facial, siempre a favor del grupo intraoral en estos datos.\n- El resultado funcional a 6 meses fue bueno en casi todos los casos y no mostró una diferencia relevante entre abordajes.\n- Las complicaciones fueron más frecuentes en el grupo preauricular, pero la incertidumbre es amplia y el resultado debe presentarse como tendencia exploratoria.\n- Hay que remarcar que la muestra es pequeña y observacional: los resultados orientan, pero no demuestran causalidad.\n\nEn una frase: en esta serie, el abordaje intraoral parece asociarse con menor carga quirúrgica y postoperatoria, aunque la interpretación debe ser prudente por el tamaño muestral y la naturaleza retrospectiva del estudio.\n\n## Muestra y calidad de datos\n\n| Indicador | Resultado |\n|---|---:|\n| Registros analizados | 41 |\n| Columnas auditadas | 24 |\n| Columnas con algún dato ausente/no interpretable | 9 |\n| Valores observados en Sexo | M, F, H |\n| Abordaje Intraoral | 18 |\n| Abordaje Preauricular | 23 |\n\nAdvertencias de calidad relevantes:\n\n- La variable Sexo contiene F, H y M; no se interpreta hasta confirmar la codificación exacta.\n- Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.\n- Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.\n- Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.\n- Los identificadores de paciente se usaron solo para control interno de duplicados y no se incluyen en este informe.\n\nEn sencillo: la base permite responder varias preguntas comparativas, pero algunas columnas necesitan aclaración antes de cerrar conclusiones definitivas.\n\n## Resultados comparativos principales\n\n| Desenlace | Denominador | Resultado | Efecto (IC95%) | Prueba | p | Lectura sencilla |\n|---|---:|---|---|---|---:|---|\n| Tiempo Quirúrgico (min) | 18 vs 23 | Mediana 41.0 vs 60.0 | -19.0 (-33.0 a -7.5) | U de Mann-Whitney | <0,001 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Sangrado Postop (ml) | 18 vs 23 | Mediana 0.0 vs 10.0 | -10.0 (-10.0 a -5.0) | U de Mann-Whitney | <0,001 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Dolor Postoperatorio (0–10) | 18 vs 23 | Mediana 0.0 vs 3.0 | -3.0 (-4.0 a -1.0) | U de Mann-Whitney | 0,008 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Recuperación Funcional (días) | 18 vs 22 | Mediana 6.0 vs 7.0 | -1.0 (-2.0 a 0.0) | U de Mann-Whitney | 0,042 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Lesión Nervio Facial (Sí=1/No=0) | 18 vs 23 | Eventos 0/18 vs 9/23 | -39,1 pp (-59,2 a -4,6 pp) | Fisher exacta | 0,002 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Sangrado postoperatorio >0 ml | 18 vs 23 | Eventos 0/18 vs 21/23 | -91,3 pp (-97,6 a -55,6 pp) | Fisher exacta | <0,001 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Cicatriz Visible (Sí: 1/No: 0) | 18 vs 23 | Eventos 0/18 vs 23/23 | -100,0 pp (-100,0 a -68,1 pp) | Fisher exacta | <0,001 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Resultado Funcional a 6m (Bueno:1 / Malo:0) | 18 vs 23 | Eventos 18/18 vs 22/23 | 4,3 pp (-16,8 a 21,0 pp) | Fisher exacta | 1,000 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Complicaciones: SI: 1 /NO: 0) | 18 vs 22 | Eventos 3/18 vs 10/22 | -28,8 pp (-59,5 a 12,3 pp) | Fisher exacta | 0,090 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Necesidad ortognática binaria | 18 vs 21 | Eventos 15/18 vs 17/21 | 2,4 pp (-31,6 a 34,2 pp) | Fisher exacta | 1,000 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n\n## Variables no contrastadas\n\n- **Resultado Estético numérico**: No hay exactamente dos grupos con datos analizables.\n- **Oclusión (Normal: 1/Alterada:0)**: La variable no tiene dos niveles observados tras excluir perdidos.\n- **Recidiva binaria**: La variable no tiene dos niveles observados tras excluir perdidos.\n- **TIPO DE COMPLICACIÓN**: Categoría RxC muy dispersa; se informa descriptiva por abordaje sin contraste.\n\n## Interpretación clínica prudente\n\nEn esta muestra, el abordaje intraoral se asoció con menor tiempo quirúrgico, menor sangrado postoperatorio, menor dolor postoperatorio y una recuperación funcional ligeramente más corta que el abordaje preauricular. También se observaron menos lesiones de nervio facial y menos cicatrices visibles en el grupo intraoral.\n\nEn sencillo: los datos favorecen al abordaje intraoral en varios resultados de carga quirúrgica y postoperatoria, pero la muestra es pequeña y observacional.\n\nLa cicatriz visible debe interpretarse con especial cautela porque está muy ligada a la propia naturaleza del abordaje. No debe presentarse como efecto causal aislado sin contextualizar la técnica quirúrgica.\n\n## Métodos estadísticos\n\n- Variables cuantitativas u ordinales: mediana, IQR, media y desviación estándar como descriptiva.\n- Comparaciones cuantitativas entre abordajes: U de Mann-Whitney, correlación rank-biserial y diferencia de medianas con IC95% por bootstrap reproducible.\n- Variables binarias: prueba exacta de Fisher, diferencia de riesgos con IC95% aproximado Newcombe-Wilson y odds ratio como efecto secundario.\n- No se imputaron datos perdidos. Los valores ? / no aplica y textos no numéricos se documentaron y se excluyeron del análisis correspondiente.\n\n## Limitaciones\n\n- Muestra pequeña y observacional.\n- Múltiples comparaciones exploratorias sin endpoint primario predefinido.\n- Codificación ambigua de Sexo y recidiva pendiente de aclaración.\n- Algunas asociaciones pueden estar condicionadas por la indicación quirúrgica y la selección de abordaje.\n\n## Archivos reproducibles asociados\n\n- `analysis_pipeline.py`\n- `outputs/data_quality.csv`\n- `outputs/codebook.csv`\n- `outputs/descriptive_continuous.csv`\n- `outputs/descriptive_categorical.csv`\n- `outputs/statistical_results.csv`\n",
+  "report": "# Informe para presentación de resultados - Estudio de hiperplasia condilar\n\nServicio de Cirugía Oral y Maxilofacial, Hospital Universitario Miguel Servet.\n\nPreparado para Juan Antonio, residente del Servicio de Cirugía Oral y Maxilofacial.\n\n## Resumen ejecutivo\n\nSe analizaron 41 registros del estudio. La unidad de análisis se considera un registro paciente/intervención. El análisis es descriptivo y comparativo exploratorio por tipo de abordaje quirúrgico: intraoral frente a preauricular.\n\nEn sencillo: este documento resume los resultados principales para que Juan Antonio pueda presentarlos al servicio. No debe interpretarse como prueba causal, sino como una descripción comparativa de esta muestra.\n\n## Traducción rápida para presentar\n\n- En esta muestra, el abordaje intraoral se comportó mejor en varias variables de carga postoperatoria: menor tiempo quirúrgico, menor sangrado, menos dolor y recuperación algo más rápida.\n- Las diferencias más claras aparecen en sangrado, cicatriz visible y lesión del nervio facial, siempre a favor del grupo intraoral en estos datos.\n- El resultado funcional a 6 meses fue bueno en casi todos los casos y no mostró una diferencia relevante entre abordajes.\n- Las complicaciones fueron más frecuentes en el grupo preauricular, pero la incertidumbre es amplia y el resultado debe presentarse como tendencia exploratoria.\n- Hay que remarcar que la muestra es pequeña y observacional: los resultados orientan, pero no demuestran causalidad.\n\nEn una frase: en esta serie, el abordaje intraoral parece asociarse con menor carga quirúrgica y postoperatoria, aunque la interpretación debe ser prudente por el tamaño muestral y la naturaleza retrospectiva del estudio.\n\n## Muestra y calidad de datos\n\n| Indicador | Resultado |\n|---|---:|\n| Registros analizados | 41 |\n| Columnas auditadas | 24 |\n| Columnas con algún dato ausente/no interpretable | 9 |\n| Valores observados en Sexo | Mujer, Hombre |\n| Abordaje Intraoral | 18 |\n| Abordaje Preauricular | 23 |\n\nAdvertencias de calidad relevantes:\n\n- La variable Sexo se corrigió por error de creación de la base: M/F se unificaron como Mujer y H como Hombre.\n- Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.\n- Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.\n- Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.\n- Los identificadores de paciente se usaron solo para control interno de duplicados y no se incluyen en este informe.\n\nEn sencillo: la base permite responder varias preguntas comparativas, pero algunas columnas necesitan aclaración antes de cerrar conclusiones definitivas.\n\n## Resultados comparativos principales\n\n| Desenlace | Denominador | Resultado | Efecto (IC95%) | Prueba | p | Lectura sencilla |\n|---|---:|---|---|---|---:|---|\n| Tiempo Quirúrgico (min) | 18 vs 23 | Mediana 41.0 vs 60.0 | -19.0 (-33.0 a -7.5) | U de Mann-Whitney | <0,001 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Sangrado Postop (ml) | 18 vs 23 | Mediana 0.0 vs 10.0 | -10.0 (-10.0 a -5.0) | U de Mann-Whitney | <0,001 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Dolor Postoperatorio (0–10) | 18 vs 23 | Mediana 0.0 vs 3.0 | -3.0 (-4.0 a -1.0) | U de Mann-Whitney | 0,008 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Recuperación Funcional (días) | 18 vs 22 | Mediana 6.0 vs 7.0 | -1.0 (-2.0 a 0.0) | U de Mann-Whitney | 0,042 | El abordaje intraoral presentó valores menores si el efecto es negativo. |\n| Lesión Nervio Facial (Sí=1/No=0) | 18 vs 23 | Eventos 0/18 vs 9/23 | -39,1 pp (-59,2 a -4,6 pp) | Fisher exacta | 0,002 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Sangrado postoperatorio >0 ml | 18 vs 23 | Eventos 0/18 vs 21/23 | -91,3 pp (-97,6 a -55,6 pp) | Fisher exacta | <0,001 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Cicatriz Visible (Sí: 1/No: 0) | 18 vs 23 | Eventos 0/18 vs 23/23 | -100,0 pp (-100,0 a -68,1 pp) | Fisher exacta | <0,001 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Resultado Funcional a 6m (Bueno:1 / Malo:0) | 18 vs 23 | Eventos 18/18 vs 22/23 | 4,3 pp (-16,8 a 21,0 pp) | Fisher exacta | 1,000 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Complicaciones: SI: 1 /NO: 0) | 18 vs 22 | Eventos 3/18 vs 10/22 | -28,8 pp (-59,5 a 12,3 pp) | Fisher exacta | 0,090 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n| Necesidad ortognática binaria | 18 vs 21 | Eventos 15/18 vs 17/21 | 2,4 pp (-31,6 a 34,2 pp) | Fisher exacta | 1,000 | Compara proporciones; los intervalos pueden ser amplios por eventos escasos. |\n\n## Variables no contrastadas\n\n- **Resultado Estético numérico**: No hay exactamente dos grupos con datos analizables.\n- **Oclusión (Normal: 1/Alterada:0)**: La variable no tiene dos niveles observados tras excluir perdidos.\n- **Recidiva binaria**: La variable no tiene dos niveles observados tras excluir perdidos.\n- **TIPO DE COMPLICACIÓN**: Categoría RxC muy dispersa; se informa descriptiva por abordaje sin contraste.\n\n## Interpretación clínica prudente\n\nEn esta muestra, el abordaje intraoral se asoció con menor tiempo quirúrgico, menor sangrado postoperatorio, menor dolor postoperatorio y una recuperación funcional ligeramente más corta que el abordaje preauricular. También se observaron menos lesiones de nervio facial y menos cicatrices visibles en el grupo intraoral.\n\nEn sencillo: los datos favorecen al abordaje intraoral en varios resultados de carga quirúrgica y postoperatoria, pero la muestra es pequeña y observacional.\n\nLa cicatriz visible debe interpretarse con especial cautela porque está muy ligada a la propia naturaleza del abordaje. No debe presentarse como efecto causal aislado sin contextualizar la técnica quirúrgica.\n\n## Métodos estadísticos\n\n- Variables cuantitativas u ordinales: mediana, IQR, media y desviación estándar como descriptiva.\n- Comparaciones cuantitativas entre abordajes: U de Mann-Whitney, correlación rank-biserial y diferencia de medianas con IC95% por bootstrap reproducible.\n- Variables binarias: prueba exacta de Fisher, diferencia de riesgos con IC95% aproximado Newcombe-Wilson y odds ratio como efecto secundario.\n- No se imputaron datos perdidos. Los valores ? / no aplica y textos no numéricos se documentaron y se excluyeron del análisis correspondiente.\n\n## Limitaciones\n\n- Muestra pequeña y observacional.\n- Múltiples comparaciones exploratorias sin endpoint primario predefinido.\n- Recidiva y tiempo de recidiva pendientes de aclaración.\n- Algunas asociaciones pueden estar condicionadas por la indicación quirúrgica y la selección de abordaje.\n\n## Archivos reproducibles asociados\n\n- `analysis_pipeline.py`\n- `outputs/data_quality.csv`\n- `outputs/codebook.csv`\n- `outputs/descriptive_continuous.csv`\n- `outputs/descriptive_categorical.csv`\n- `outputs/statistical_results.csv`\n",
   "quality": [
     {
       "column": "ID Paciente",
@@ -35,10 +35,10 @@
       "n_rows": 41,
       "missing_n": 0,
       "missing_pct": 0.0,
-      "unique_n": 3,
+      "unique_n": 2,
       "constant_or_near_constant": false,
       "suspicious_values": null,
-      "examples": "H; M; F"
+      "examples": "Hombre; Mujer"
     },
     {
       "column": "Lado Afectado",
@@ -336,8 +336,8 @@
       "role": "categórica",
       "unit_or_scale": null,
       "public_output": "yes",
-      "coding_or_values": "H; M; F",
-      "transformation_or_note": null
+      "coding_or_values": "Hombre; Mujer",
+      "transformation_or_note": "Recodificación corregida: M/F -> Mujer; H -> Hombre."
     },
     {
       "column": "Lado Afectado",
@@ -748,27 +748,17 @@
     {
       "group": "Global",
       "variable": "Sexo",
-      "level": "M",
-      "n": 19,
+      "level": "Mujer",
+      "n": 32,
       "denominator_records": 41,
       "denominator_nonmissing": 41,
-      "pct_records": 46.34,
-      "pct_nonmissing": 46.34
+      "pct_records": 78.05,
+      "pct_nonmissing": 78.05
     },
     {
       "group": "Global",
       "variable": "Sexo",
-      "level": "F",
-      "n": 13,
-      "denominator_records": 41,
-      "denominator_nonmissing": 41,
-      "pct_records": 31.71,
-      "pct_nonmissing": 31.71
-    },
-    {
-      "group": "Global",
-      "variable": "Sexo",
-      "level": "H",
+      "level": "Hombre",
       "n": 9,
       "denominator_records": 41,
       "denominator_nonmissing": 41,
@@ -1098,22 +1088,12 @@
     {
       "group": "Intraoral",
       "variable": "Sexo",
-      "level": "F",
-      "n": 13,
+      "level": "Mujer",
+      "n": 18,
       "denominator_records": 18,
       "denominator_nonmissing": 18,
-      "pct_records": 72.22,
-      "pct_nonmissing": 72.22
-    },
-    {
-      "group": "Intraoral",
-      "variable": "Sexo",
-      "level": "M",
-      "n": 5,
-      "denominator_records": 18,
-      "denominator_nonmissing": 18,
-      "pct_records": 27.78,
-      "pct_nonmissing": 27.78
+      "pct_records": 100.0,
+      "pct_nonmissing": 100.0
     },
     {
       "group": "Intraoral",
@@ -1318,7 +1298,7 @@
     {
       "group": "Preauricular",
       "variable": "Sexo",
-      "level": "M",
+      "level": "Mujer",
       "n": 14,
       "denominator_records": 23,
       "denominator_nonmissing": 23,
@@ -1328,7 +1308,7 @@
     {
       "group": "Preauricular",
       "variable": "Sexo",
-      "level": "H",
+      "level": "Hombre",
       "n": 9,
       "denominator_records": 23,
       "denominator_nonmissing": 23,

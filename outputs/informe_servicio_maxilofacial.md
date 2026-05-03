@@ -27,13 +27,13 @@ En una frase: en esta serie, el abordaje intraoral parece asociarse con menor ca
 | Registros analizados | 41 |
 | Columnas auditadas | 24 |
 | Columnas con algún dato ausente/no interpretable | 9 |
-| Valores observados en Sexo | M, F, H |
+| Valores observados en Sexo | Mujer, Hombre |
 | Abordaje Intraoral | 18 |
 | Abordaje Preauricular | 23 |
 
 Advertencias de calidad relevantes:
 
-- La variable Sexo contiene F, H y M; no se interpreta hasta confirmar la codificación exacta.
+- La variable Sexo se corrigió por error de creación de la base: M/F se unificaron como Mujer y H como Hombre.
 - Recidiva contiene valores ?; no se estima una tasa definitiva de recidiva.
 - Tiempo Recidiva (meses) contiene valores no numéricos y no es analizable como tiempo hasta recodificar.
 - Oclusión es constante en esta base, por lo que no se contrasta inferencialmente.
@@ -82,7 +82,7 @@ La cicatriz visible debe interpretarse con especial cautela porque está muy lig
 
 - Muestra pequeña y observacional.
 - Múltiples comparaciones exploratorias sin endpoint primario predefinido.
-- Codificación ambigua de Sexo y recidiva pendiente de aclaración.
+- Recidiva y tiempo de recidiva pendientes de aclaración.
 - Algunas asociaciones pueden estar condicionadas por la indicación quirúrgica y la selección de abordaje.
 
 ## Archivos reproducibles asociados

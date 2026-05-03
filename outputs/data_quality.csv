@@ -1,7 +1,7 @@
 column,inferred_role,unit_or_scale,dtype,n_rows,missing_n,missing_pct,unique_n,constant_or_near_constant,suspicious_values,examples
 ID Paciente,identificador sensible,,str,41,0,0.0,41,False,,
 Edad,cuantitativa/ordinal,años,int64,41,0,0.0,16,False,,19; 18; 49; 30; 16; 17; 15; 20
-Sexo,categórica,,str,41,0,0.0,3,False,,H; M; F
+Sexo,categórica,,str,41,0,0.0,2,False,,Hombre; Mujer
 Lado Afectado,categórica,,str,41,0,0.0,2,False,,Derecho; Izquierdo
 Abordaje,exposición/grupo principal,,str,41,0,0.0,2,False,,Preauricular; Intraoral
 Tiempo Quirúrgico (min),cuantitativa/ordinal,minutos,int64,41,0,0.0,19,False,,60; 120; 90; 50; 70; 75; 80; 81

@@ -104,7 +104,7 @@ selected_side = st.sidebar.multiselect("Lado afectado", side_values, default=sid
 
 sex_col = "Sexo"
 sex_values = sorted(df[sex_col].dropna().unique().tolist()) if sex_col in df else []
-selected_sex = st.sidebar.multiselect("Sexo (codificación pendiente)", sex_values, default=sex_values)
+selected_sex = st.sidebar.multiselect("Sexo", sex_values, default=sex_values)
 
 view = df.copy()
 if selected_approach and APPROACH in view:
@@ -119,7 +119,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<div class='warn-note'>Confirmar la codificación de Sexo (`H`, `M`, `F`) y los valores `?` antes de usar conclusiones definitivas.</div>",
+    "<div class='warn-note'>La variable Sexo ya está corregida como Mujer/Hombre. Mantener cautela con recidiva y valores `?` antes de usar conclusiones definitivas.</div>",
     unsafe_allow_html=True,
 )
 

@@ -84,6 +84,25 @@ def clean_data(df: pd.DataFrame) -> tuple[pd.DataFrame, list[dict]]:
         if clean[col].dtype == "object":
             clean[col] = clean[col].map(normalize_text)
 
+    sex_col = RAW_COLUMNS["sex"]
+    if sex_col in clean:
+        mapping = {
+            "M": "Mujer",
+            "F": "Mujer",
+            "MUJER": "Mujer",
+            "FEMENINO": "Mujer",
+            "H": "Hombre",
+            "HOMBRE": "Hombre",
+            "MASCULINO": "Hombre",
+        }
+        clean[sex_col] = clean[sex_col].map(
+            lambda x: mapping.get(str(x).strip().upper(), x) if pd.notna(x) else x
+        )
+        transformations.append({
+            "column": sex_col,
+            "transformation": "Recodificación corregida: M/F -> Mujer; H -> Hombre.",
+        })
+
     side_col = RAW_COLUMNS["side"]
     if side_col in clean:
         mapping = {
@@ -461,7 +480,7 @@ def extract_docx_review(docx_path: Path | None, outdir: Path) -> dict:
         "Incluye valores p expresados como 0.000; se deben reportar con precisión razonable, no como cero.",
         "Incluye fragmentos de código con datos introducidos manualmente; esto dificulta auditoría y reproducibilidad.",
         "Se apoya mucho en Shapiro-Wilk para decidir normalidad; en muestra pequeña conviene usar resúmenes robustos, gráficos y pruebas no paramétricas justificadas.",
-        "No documenta de forma suficiente missingness, valores `?`/`no aplica`, denominadores exactos ni codificación ambigua de `Sexo`.",
+        "No documenta de forma suficiente missingness, valores `?`/`no aplica` ni denominadores exactos; la variable `Sexo` se corrige en la base reproducible.",
         "No reporta de forma sistemática tamaños de efecto ni intervalos de confianza, por lo que puede sobredimensionar conclusiones basadas solo en p-valores.",
     ]
     if "ID Paciente" in text:
@@ -592,7 +611,7 @@ def write_report(
     approach_col = RAW_COLUMNS["approach"]
     counts = df[approach_col].value_counts(dropna=False).to_dict()
     duplicate_ids = int(df[RAW_COLUMNS["id"]].duplicated().sum()) if RAW_COLUMNS["id"] in df else 0
-    sex_values = ", ".join(sorted(df[RAW_COLUMNS["sex"]].dropna().astype(str).unique()))
+    sex_counts = df[RAW_COLUMNS["sex"]].value_counts(dropna=False).to_dict()
     unknown_recurrence = int((df[RAW_COLUMNS["recurrence"]].astype(str).str.strip() == "?").sum())
     missing_cols = int((quality["missing_n"] > 0).sum())
 
@@ -616,7 +635,7 @@ def write_report(
         f"- Distribución por abordaje: {counts}.",
         f"- Duplicados por `ID Paciente`: {duplicate_ids}. Los identificadores se excluyen de outputs públicos.",
         f"- Columnas con algún dato ausente/no interpretable: {missing_cols}.",
-        f"- Valores observados en `Sexo`: {sex_values}. No se interpreta sexo hasta confirmar si `M` significa mujer o masculino.",
+        f"- Distribución de `Sexo` tras corrección de codificación: {sex_counts}.",
         f"- `Recidiva` contiene {unknown_recurrence} valores `?`; no se estima tasa definitiva de recidiva.",
         "- `Oclusión` es constante en esta base y no se contrasta inferencialmente.",
         "",
@@ -684,7 +703,7 @@ def write_report(
         "## Limitaciones",
         "",
         "- Muestra pequeña, observacional y con múltiples comparaciones exploratorias.",
-        "- La codificación de `Sexo`, recidiva y tiempo de recidiva requiere aclaración antes de inferencias definitivas.",
+        "- La codificación de recidiva y tiempo de recidiva requiere aclaración antes de inferencias definitivas.",
         "- Algunas asociaciones son estructurales por el propio abordaje, como cicatriz visible, y no deben leerse como efecto causal aislado.",
     ])
     (outdir / "report.md").write_text("\n".join(lines), encoding="utf-8")
