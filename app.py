@@ -231,12 +231,19 @@ with tab_compare:
         fig.add_vline(x=0, line_dash="dash", line_color="#64748B")
         fig.update_layout(
             yaxis_title="",
-            xaxis_title="Efecto: Intraoral - Preauricular (binarios en puntos porcentuales)",
+            xaxis_title="Efecto (Intraoral - Preauricular)",
             margin=dict(l=20, r=20, t=20, b=20),
         )
+        finite_values = pd.concat([plot["effect_value"], plot["ci95_low"], plot["ci95_high"], pd.Series([0])]).dropna()
+        if not finite_values.empty:
+            low = float(finite_values.min())
+            high = float(finite_values.max())
+            span = max(high - low, 1.0)
+            fig.update_xaxes(range=[low - span * 0.08, high + span * 0.08])
+        fig.update_layout(height=max(300, min(560, 150 + 38 * len(plot))))
         st.plotly_chart(fig, width="stretch")
         st.caption(
-            "Lectura rápida: los puntos a la izquierda de 0 favorecen al intraoral cuando el desenlace es carga postoperatoria o evento adverso."
+            "Lectura rápida: el 0 significa ausencia de diferencia. En desenlaces de carga postoperatoria o eventos adversos, los puntos a la izquierda de 0 indican menor carga en intraoral; en desenlaces beneficiosos, la dirección se interpreta al revés. Los binarios se muestran en puntos porcentuales."
         )
     if not skipped.empty:
         st.subheader("No testadas")

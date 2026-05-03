@@ -319,8 +319,9 @@
             <h2>Tamaños de efecto</h2>
             <div id="effectChart"></div>
             <p class="chart-note">
-              Lectura rápida: los puntos a la izquierda de 0 favorecen al abordaje intraoral cuando el desenlace representa carga postoperatoria
-              o evento adverso. En variables binarias, el efecto se muestra en puntos porcentuales.
+              Lectura rápida: el 0 significa ausencia de diferencia. En desenlaces de carga postoperatoria o eventos adversos, los puntos a la
+              izquierda de 0 indican menor carga en el abordaje intraoral. En desenlaces beneficiosos, como buen resultado funcional, la dirección
+              se interpreta al revés. En variables binarias, el efecto se muestra en puntos porcentuales.
             </p>
           </div>
           <div class="panel">
@@ -524,6 +525,19 @@
         return row.outcome_type === "binaria" ? value * 100 : value;
       };
 
+      const effectAxisRange = (rows) => {
+        const values = rows
+          .flatMap((row) => [effectPlotValue(row), effectPlotLow(row), effectPlotHigh(row), 0])
+          .filter((value) => Number.isFinite(value));
+        if (!values.length) return undefined;
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const span = Math.max(max - min, 1);
+        return [min - span * 0.08, max + span * 0.08];
+      };
+
+      const effectChartHeight = (rows) => Math.max(280, Math.min(560, 150 + rows.length * 38));
+
       const renderDashboard = () => {
         const quality = filteredQuality();
         const allQuality = dashboardData.quality || [];
@@ -564,17 +578,20 @@
               marker: { size: 10, color: tested.map((r) => (r.outcome_type === "binaria" ? "#b45309" : "#2563eb")) },
               type: "scatter",
               orientation: "h",
-              hovertemplate: "%{y}<br>Efecto mostrado: %{x:.1f}<extra></extra>",
+              customdata: tested.map((r) => [effectPlotLow(r), effectPlotHigh(r)]),
+              hovertemplate: "%{y}<br>Efecto: %{x:.1f}<br>IC95%: %{customdata[0]:.1f} a %{customdata[1]:.1f}<extra></extra>",
             },
           ],
           {
-            margin: { l: 190, r: 20, t: 10, b: 40 },
+            margin: { l: 190, r: 20, t: 10, b: 58 },
             xaxis: {
-              title: "Efecto: Intraoral - Preauricular (binarios en puntos porcentuales)",
+              title: "Efecto (Intraoral - Preauricular)",
+              range: effectAxisRange(tested),
               zeroline: true,
               zerolineColor: "#64748b",
             },
             yaxis: { automargin: true },
+            height: effectChartHeight(tested),
             template: "plotly_white",
           },
           { responsive: true, displayModeBar: false },
