@@ -164,6 +164,10 @@
         font-size: 0.92rem;
       }
 
+      select[multiple] {
+        min-height: 112px;
+      }
+
       .filter-note {
         color: var(--muted);
         font-size: 0.9rem;
@@ -258,7 +262,11 @@
         <div class="filters">
           <label>
             Buscar
-            <input id="textFilter" type="search" placeholder="Desenlace o variable" />
+            <input id="textFilter" type="search" placeholder="Texto libre" />
+          </label>
+          <label>
+            Desenlace
+            <select id="outcomeFilter" multiple></select>
           </label>
           <label>
             Tipo de desenlace
@@ -378,12 +386,14 @@
 
       const filteredResults = () => {
         const query = document.getElementById("textFilter").value.trim();
+        const selectedOutcomes = [...document.getElementById("outcomeFilter").selectedOptions].map((option) => option.value);
         const type = document.getElementById("typeFilter").value;
         const status = document.getElementById("statusFilter").value;
         const pFilter = document.getElementById("pFilter").value;
         return (dashboardData.results || []).filter((row) => {
           const p = Number(row.p_value);
           if (!textIncludes(row, query)) return false;
+          if (selectedOutcomes.length && !selectedOutcomes.includes(row.outcome)) return false;
           if (type !== "all" && row.outcome_type !== type) return false;
           if (status !== "all" && row.analysis_status !== status) return false;
           if (pFilter === "lt005" && !(Number.isFinite(p) && p < 0.05)) return false;
@@ -486,6 +496,15 @@
         const response = await fetch("data/dashboard_data.json");
         dashboardData = await response.json();
 
+        const outcomes = [...new Set((dashboardData.results || []).map((row) => row.outcome).filter(Boolean))];
+        const outcomeFilter = document.getElementById("outcomeFilter");
+        outcomes.sort().forEach((outcome) => {
+          const option = document.createElement("option");
+          option.value = outcome;
+          option.textContent = outcome;
+          outcomeFilter.appendChild(option);
+        });
+
         const groups = new Set([
           ...(dashboardData.descriptiveContinuous || []).map((row) => row.group),
           ...(dashboardData.descriptiveCategorical || []).map((row) => row.group),
@@ -498,7 +517,7 @@
           groupFilter.appendChild(option);
         });
 
-        document.querySelectorAll("#textFilter, #typeFilter, #statusFilter, #pFilter, #groupFilter").forEach((control) => {
+        document.querySelectorAll("#textFilter, #outcomeFilter, #typeFilter, #statusFilter, #pFilter, #groupFilter").forEach((control) => {
           control.addEventListener("input", renderDashboard);
           control.addEventListener("change", renderDashboard);
         });
